@@ -1,6 +1,6 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:phone_login/screens/sms_verification/otp_controller_screen.dart';
 import 'package:phone_login/utilities/constans.dart';
 import 'package:phone_login/widgets/raised_btn_pg.dart';
@@ -117,11 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 padding: const EdgeInsets.only(left: 4, right: 4),
                 child: Text(
                   dialCodeDigits,
-                  style: GoogleFonts.manrope(
-                      textStyle: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w800,
-                          color: Color.fromRGBO(33, 33, 33, 1))),
+                  style: kInputTextStyle,
                 ),
               ),
             ),

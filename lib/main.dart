@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:phone_login/screens/singin_singup_screen.dart';
 import 'package:phone_login/screens/sms_verification/login_screen.dart';
 import 'package:phone_login/screens/sms_verification/congrats_screen.dart';
 import 'package:phone_login/screens/sms_verification/reset_password_screen.dart';
@@ -34,11 +35,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
       theme: ThemeData(
+        fontFamily: 'Manrope',
         primarySwatch: Colors.grey,
       ),
-      home: const LoginScreen(),
+      home: const SingInSingUpScreen(),
+      
+
+      //---SMS Verification---
+      //const LoginScreen(),
       // const ResetPasswordScreen(),
       // const CongratsScreen(),
     );

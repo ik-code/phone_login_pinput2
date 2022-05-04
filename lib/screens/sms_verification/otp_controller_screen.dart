@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:phone_login/screens/sms_verification/congrats_screen.dart';
 import 'package:phone_login/utilities/constans.dart';
 import 'package:pinput/pinput.dart';
@@ -32,10 +31,7 @@ class _OTPControllerScreenState extends State<OTPControllerScreen> {
   final defaultPinTheme = PinTheme(
     width: 58,
     height: 50,
-    textStyle: GoogleFonts.manrope(
-      fontSize: 22,
-      color: const Color.fromARGB(255, 33, 30, 87),
-    ),
+    textStyle: kBigtitleTextStyle,
     decoration: BoxDecoration(
       color: fillColor,
       borderRadius: BorderRadius.circular(8),
@@ -119,15 +115,15 @@ class _OTPControllerScreenState extends State<OTPControllerScreen> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Row(
-            children: <Widget>[
-              const SizedBox(
+            children: const <Widget>[
+              SizedBox(
                 width: 15,
               ),
               Text(
                 'Forgot Password',
                 style: kBigtitleTextStyle,
               ),
-             const SizedBox(height: 80.0),
+             SizedBox(height: 80.0),
             ],
           ),
 
@@ -138,10 +134,7 @@ class _OTPControllerScreenState extends State<OTPControllerScreen> {
               },
               child: Text(
                 "Code has been send to ${widget.codeDigits}-${widget.phone}",
-                style: GoogleFonts.manrope(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: borderColor),
+                style: kSubtitleOrangeTextStyle,
               ),
             ),
           ),
