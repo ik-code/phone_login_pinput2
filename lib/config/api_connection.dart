@@ -10,7 +10,7 @@ class ApiConnection {
   Uri logInPostEndPoint() {
  
     return Uri.parse(_serverUrl +
-        '/api/login?phone_number=${phoneNumber}&password=${password}');
+        '/api/login?phone_number=${(phoneNumber).substring(1)}&password=${password}');
     // try {
     //   //aptiToken = lsjhflgjshldfgjh
     //   // ignore: await_only_futures, avoid_print

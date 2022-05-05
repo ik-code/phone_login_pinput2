@@ -43,25 +43,25 @@ return Scaffold(
                   child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children:  <Widget>[
-                    const LogoPG(
+                  children:  const <Widget>[
+                    LogoPG(
                       imgFile: 'logo_orange_final_screen.png',
                     ),
-                    const SizedBox(
+                    SizedBox(
                       height: 40,
                     ),
                     Text(
                       'Congrats!',
                       style: kBigtitleTextStyle,
                     ),
-                    const SizedBox(
+                    SizedBox(
                       height: 10,
                     ),
                      Text(
-                      'Create a new password',
+                      'Your account is ready to use',
                       style: kSubtitleBlackTextStyle,
                     ),
-                     const SizedBox(
+                     SizedBox(
                       height: 100,
                     ),
                   ],

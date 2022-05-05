@@ -13,7 +13,7 @@ class SinginToAccountScreen extends StatelessWidget {
         child: Container(
           width: double.infinity,
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: const SigninForm(),
+          child:  const SigninForm(),
           ),
       )
     );

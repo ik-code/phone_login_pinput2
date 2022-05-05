@@ -57,20 +57,20 @@ class _LoginScreenState extends State<LoginScreen> {
       body:
           Column(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
         Row(
-          children: <Widget>[
-            const SizedBox(
+          children: const <Widget>[
+            SizedBox(
               width: 15,
             ),
             Text(
               'Forgot Password',
               style: kBigtitleTextStyle,
             ),
-            const SizedBox(height: 80.0),
+            SizedBox(height: 80.0),
           ],
         ),
         Container(
           margin: const EdgeInsets.only(top: 50),
-          child: Center(
+          child: const Center(
             child: Text(
               "Enters valid Phone number to get SMS",
               style: kSubtitleOrangeTextStyle,
@@ -89,10 +89,9 @@ class _LoginScreenState extends State<LoginScreen> {
             initialSelection: "US",
             showCountryOnly: false,
             showOnlyCountryWhenClosed: false,
-            favorite: const ["+1", "US", "+380", "UA"],
+            favorite: const ["+1", "US","+44","UK" "+380", "UA"],
           ),
         ),
-        
         Container(
           margin: const EdgeInsets.only(top: 8, right: 24, left: 24),
           child: TextFormField(
@@ -134,6 +133,8 @@ class _LoginScreenState extends State<LoginScreen> {
           child: RaisedButtonPG(
               text: 'Sing in',
               onPressedHandler: () {
+                print(dialCodeDigits);
+                print(_controller.text);
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => OTPControllerScreen(
                           phone: _controller.text,

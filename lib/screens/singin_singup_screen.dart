@@ -46,7 +46,7 @@ class SingInSingUpScreen extends StatelessWidget {
                 Container(
                   alignment: Alignment.center,
                   child: 
-                  Text(
+                  const Text(
                     'or',
                     style: kSmallTextStyle,
                     ),

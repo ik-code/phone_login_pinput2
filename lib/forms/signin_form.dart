@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:phone_login/config/api_connection.dart';
 import 'package:phone_login/screens/sms_verification/login_screen.dart';
@@ -17,6 +18,8 @@ class SigninForm extends StatefulWidget {
 }
 
 class _SigninFormState extends State<SigninForm> {
+  String apiPersonalAccessToken = '';
+  String dialCodeDigits = "+1";
   final _formKey = GlobalKey<FormState>();
   String _phone = '';
   String _password = '';
@@ -27,6 +30,10 @@ class _SigninFormState extends State<SigninForm> {
 
   final RegExp phoneRegex = RegExp(r'^[0-9]{10}$');
   //RegExp(r'^[0-9]{3}-[0-9]{3}-[0-9]{4}$');
+
+  String errorText = '';
+  late IconData errorIcon;
+  double errorContainerHeight = 0.0;
 
   @override
   void initState() {
@@ -57,6 +64,8 @@ class _SigninFormState extends State<SigninForm> {
       return;
     }
     print('Form was submitted');
+    print('DialCode: ${dialCodeDigits}');
+
     print('Phone: ${_phone}');
     print('Password: ${_password}');
 
@@ -64,8 +73,8 @@ class _SigninFormState extends State<SigninForm> {
   }
 
   void getData() async {
-    ApiConnection apiConnection =
-        ApiConnection(phoneNumber: _phone, password: _password);
+    ApiConnection apiConnection = ApiConnection(
+        phoneNumber: (dialCodeDigits + _phone), password: _password);
 
     http.Response response = await http.post(apiConnection.logInPostEndPoint());
 
@@ -73,10 +82,14 @@ class _SigninFormState extends State<SigninForm> {
         jsonDecode(response.body)['data'] != null) {
       String data = response.body;
       print(data);
-      var aipToken = jsonDecode(data)['data']['api_personal_access_token'];
+      var apiToken = jsonDecode(data)['data']['api_personal_access_token'];
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('You are login')));
-      print(aipToken);
+      print(apiToken);
+      setState(() {
+        apiPersonalAccessToken = apiToken;
+      });
+      print(apiPersonalAccessToken);
     }
 
     if (response.statusCode == 200 &&
@@ -108,9 +121,24 @@ class _SigninFormState extends State<SigninForm> {
               const SizedBox(
                 height: 40,
               ),
-              Text('Sign in to your account', style: kSubtitleTextStyle),
+              const Text('Sign in to your account', style: kSubtitleTextStyle),
               const SizedBox(
                 height: 40,
+              ),
+              SizedBox(
+                width: 400,
+                height: 48,
+                child: CountryCodePicker(
+                  onChanged: (country) {
+                    setState(() {
+                      dialCodeDigits = country.dialCode!;
+                    });
+                  },
+                  initialSelection: "US",
+                  showCountryOnly: false,
+                  showOnlyCountryWhenClosed: false,
+                  favorite: const ["+1", "US", "+380", "UA"],
+                ),
               ),
               buildPhone(),
               const SizedBox(
@@ -135,7 +163,7 @@ class _SigninFormState extends State<SigninForm> {
               ),
             ]),
             const SizedBox(
-              height: 160,
+              height: 110,
             ),
             Column(
               children: [
@@ -177,7 +205,14 @@ class _SigninFormState extends State<SigninForm> {
             fontSize: 14,
             fontWeight: FontWeight.w500,
           ),
-          hintText: 'xxx-xxx-xxxx',
+          hintText: 'Phone',
+          prefix: Padding(
+            padding: const EdgeInsets.only(left: 4, right: 4),
+            child: Text(
+              dialCodeDigits,
+              style: kInputTextStyle,
+            ),
+          ),
           hintStyle: kInputHintTextStyle,
           errorStyle: kErrorTextStyle,
           labelText: 'Phone *',
@@ -188,13 +223,14 @@ class _SigninFormState extends State<SigninForm> {
               width: 2.0,
             ),
           ),
-          suffixIcon: IconButton(
-            icon: const Icon(
-              Icons.phone,
-              color: Color(0xFFFB8D1C),
-            ),
-            onPressed: () {},
-          ),
+          suffixIcon: Image.asset('images/phone.png'),
+          // IconButton(
+          //   icon: const Icon(
+          //     Icons.phone,
+          //     color: Color(0xFFFB8D1C),
+          //   ),
+          //   onPressed: () {},
+          // ),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8.0),
               borderSide: const BorderSide(
@@ -203,6 +239,7 @@ class _SigninFormState extends State<SigninForm> {
         ),
         style: kInputTextStyle,
         keyboardType: TextInputType.phone,
+        maxLength: 10,
         focusNode: _phoneFocusNode,
         textInputAction: TextInputAction.next,
         onSaved: (value) {
@@ -216,7 +253,13 @@ class _SigninFormState extends State<SigninForm> {
             return 'Please enter a phone number';
           }
           if (!phoneRegex.hasMatch(value)) {
-            return 'Please enter a valid phone number xxx-xxx-xxxx';
+            setState(() {
+              errorContainerHeight = 35.0;
+              errorIcon = FontAwesomeIcons.exclamationCircle;
+              errorText = 'Field is empty.';
+            });
+
+            return 'Please enter a valid phone number';
           }
           return null;
         },

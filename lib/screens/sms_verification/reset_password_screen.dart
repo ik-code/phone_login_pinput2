@@ -46,8 +46,8 @@ class ResetPasswordScreen extends StatelessWidget {
                   height: 10,
                 ),
                 Row(
-                  children:  <Widget>[
-                    const SizedBox(
+                  children:  const <Widget>[
+                    SizedBox(
                       width: 15,
                     ),
                     Text(
@@ -60,8 +60,8 @@ class ResetPasswordScreen extends StatelessWidget {
                   height: 20,
                 ),
                 Row(
-                  children: <Widget>[
-                     const SizedBox(
+                  children: const <Widget>[
+                     SizedBox(
                       width: 15,
                     ),
                     Text(

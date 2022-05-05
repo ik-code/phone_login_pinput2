@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:phone_login/screens/sms_verification/congrats_screen.dart';
+import 'package:phone_login/screens/sms_verification/reset_password_screen.dart';
 import 'package:phone_login/utilities/constans.dart';
 import 'package:pinput/pinput.dart';
-
 
 class OTPControllerScreen extends StatefulWidget {
   final String phone;
@@ -54,8 +54,8 @@ class _OTPControllerScreenState extends State<OTPControllerScreen> {
               .signInWithCredential(credential)
               .then((value) {
             if (value.user != null) {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const CongratsScreen()));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const ResetPasswordScreen()));
             }
           });
         },
@@ -123,10 +123,10 @@ class _OTPControllerScreenState extends State<OTPControllerScreen> {
                 'Forgot Password',
                 style: kBigtitleTextStyle,
               ),
-             SizedBox(height: 80.0),
+              SizedBox(height: 80.0),
             ],
           ),
-
+          const SizedBox(height: 56.0),
           Center(
             child: GestureDetector(
               onTap: () {
@@ -171,7 +171,7 @@ class _OTPControllerScreenState extends State<OTPControllerScreen> {
                       .then((value) {
                     if (value.user != null) {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const CongratsScreen()));
+                          builder: (context) => const ResetPasswordScreen()));
                     }
                   });
                 } catch (e) {
