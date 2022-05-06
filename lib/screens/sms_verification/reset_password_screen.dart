@@ -57,7 +57,7 @@ class ResetPasswordScreen extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 70,
                 ),
                 Row(
                   children: const <Widget>[
@@ -74,6 +74,7 @@ class ResetPasswordScreen extends StatelessWidget {
                   height: 20,
                 ),
                 const ConfirmPastForm(),
+
               ],
             ),
           ),

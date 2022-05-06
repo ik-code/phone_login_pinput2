@@ -31,9 +31,6 @@ class _SigninFormState extends State<SigninForm> {
   final RegExp phoneRegex = RegExp(r'^[0-9]{10}$');
   //RegExp(r'^[0-9]{3}-[0-9]{3}-[0-9]{4}$');
 
-  String errorText = '';
-  late IconData errorIcon;
-  double errorContainerHeight = 0.0;
 
   @override
   void initState() {
@@ -84,7 +81,7 @@ class _SigninFormState extends State<SigninForm> {
       print(data);
       var apiToken = jsonDecode(data)['data']['api_personal_access_token'];
       ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('You are login')));
+          .showSnackBar(const SnackBar(content: Text('You are logged in')));
       print(apiToken);
       setState(() {
         apiPersonalAccessToken = apiToken;
@@ -254,9 +251,7 @@ class _SigninFormState extends State<SigninForm> {
           }
           if (!phoneRegex.hasMatch(value)) {
             setState(() {
-              errorContainerHeight = 35.0;
-              errorIcon = FontAwesomeIcons.exclamationCircle;
-              errorText = 'Field is empty.';
+
             });
 
             return 'Please enter a valid phone number';

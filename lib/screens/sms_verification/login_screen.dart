@@ -131,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
           padding:
               const EdgeInsets.only(top: 8, right: 24, left: 24, bottom: 24),
           child: RaisedButtonPG(
-              text: 'Sing in',
+              text: 'Send SMS Code',
               onPressedHandler: () {
                 print(dialCodeDigits);
                 print(_controller.text);

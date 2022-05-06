@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:phone_login/raw/error_message.dart';
 import 'package:phone_login/screens/singin_singup_screen.dart';
 import 'package:phone_login/screens/sms_verification/login_screen.dart';
 import 'package:phone_login/screens/sms_verification/congrats_screen.dart';
@@ -44,7 +45,8 @@ class _MyAppState extends State<MyApp> {
         fontFamily: 'Manrope',
         primarySwatch: Colors.grey,
       ),
-      home: const SingInSingUpScreen(),
+      home: //const ErrorMessage()
+      const SingInSingUpScreen(),
 
       //---SMS Verification---
       //const LoginScreen(),

@@ -74,7 +74,7 @@ class _ConfirmPastFormState extends State<ConfirmPastForm> {
     //   print(data);
     //   var aipToken = jsonDecode(data)['data']['api_personal_access_token'];
     //   ScaffoldMessenger.of(context)
-    //       .showSnackBar(const SnackBar(content: Text('You are login')));
+    //       .showSnackBar(const SnackBar(content: Text('You are logged in')));
     //   print(aipToken);
     // }
 
@@ -108,7 +108,7 @@ class _ConfirmPastFormState extends State<ConfirmPastForm> {
               buildPassword2(),
             ]),
             const SizedBox(
-              height: 140,
+              height: 115,
             ),
             Column(
               children: [
