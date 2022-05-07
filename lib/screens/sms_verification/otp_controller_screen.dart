@@ -117,7 +117,7 @@ class _OTPControllerScreenState extends State<OTPControllerScreen> {
           Row(
             children: const <Widget>[
               SizedBox(
-                width: 15,
+                width: 24,
               ),
               Text(
                 'Forgot Password',

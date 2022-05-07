@@ -59,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
         Row(
           children: const <Widget>[
             SizedBox(
-              width: 15,
+              width: 24,
             ),
             Text(
               'Forgot Password',

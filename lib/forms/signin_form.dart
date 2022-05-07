@@ -9,6 +9,9 @@ import 'package:phone_login/widgets/logo_pg.dart';
 import 'package:phone_login/widgets/raised_btn_pg.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+
+import '../main.dart';
 
 class SigninForm extends StatefulWidget {
   const SigninForm({Key? key}) : super(key: key);
@@ -31,6 +34,13 @@ class _SigninFormState extends State<SigninForm> {
   final RegExp phoneRegex = RegExp(r'^[0-9]{10}$');
   //RegExp(r'^[0-9]{3}-[0-9]{3}-[0-9]{4}$');
 
+  
+  final Map data = {
+    'phone_number': '',
+    'token': '',
+    'password': '',
+    'password_confirmation': '',
+  };
 
   @override
   void initState() {
@@ -53,7 +63,7 @@ class _SigninFormState extends State<SigninForm> {
   }
 
   void _saveForm() async {
-    _formKey.currentState!.save();
+    _formKey.currentState?.save();
 
     final isValid = _formKey.currentState!.validate();
     if (!isValid) {
@@ -77,16 +87,19 @@ class _SigninFormState extends State<SigninForm> {
 
     if (response.statusCode == 200 &&
         jsonDecode(response.body)['data'] != null) {
-      String data = response.body;
-      print(data);
-      var apiToken = jsonDecode(data)['data']['api_personal_access_token'];
+      String res = response.body;
+      print(res);
+      var apiToken = jsonDecode(res)['data']['api_personal_access_token'];
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('You are logged in')));
       print(apiToken);
-      setState(() {
-        apiPersonalAccessToken = apiToken;
-      });
-      print(apiPersonalAccessToken);
+
+      data['token'] = apiToken;
+      _formKey.currentState?.save();
+      Provider.of<Data>(context, listen: false).updateAccount(data);
+      _formKey.currentState?.reset();
+
+      print('Central State Sing Form: ${data}');
     }
 
     if (response.statusCode == 200 &&
@@ -106,7 +119,6 @@ class _SigninFormState extends State<SigninForm> {
     return Form(
       key: _formKey,
       child: SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -239,8 +251,9 @@ class _SigninFormState extends State<SigninForm> {
         maxLength: 10,
         focusNode: _phoneFocusNode,
         textInputAction: TextInputAction.next,
-        onSaved: (value) {
-          _phone = value!;
+        onSaved: (inputPhone) {
+          _phone = inputPhone!;
+          data['phone_number'] = dialCodeDigits.toString().substring(1) + inputPhone.toString();
         },
         onFieldSubmitted: (_) {
           FocusScope.of(context).requestFocus(_passwordFocusNode);
@@ -250,9 +263,7 @@ class _SigninFormState extends State<SigninForm> {
             return 'Please enter a phone number';
           }
           if (!phoneRegex.hasMatch(value)) {
-            setState(() {
-
-            });
+            setState(() {});
 
             return 'Please enter a valid phone number';
           }
@@ -306,8 +317,9 @@ class _SigninFormState extends State<SigninForm> {
           }
           return null;
         },
-        onSaved: (value) {
-          _password = value!;
+        onSaved: (inputPassword) {
+          _password = inputPassword!;
+          data['password'] = inputPassword.toString();
         },
         onFieldSubmitted: (_) {},
       );

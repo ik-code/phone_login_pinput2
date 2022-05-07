@@ -1,9 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:phone_login/config/api_connection.dart';
 import 'package:phone_login/screens/sms_verification/congrats_screen.dart';
 import 'package:phone_login/utilities/constans.dart';
 import 'package:phone_login/widgets/raised_btn_pg.dart';
+import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
-
+import '../main.dart';
 
 class ConfirmPastForm extends StatefulWidget {
   const ConfirmPastForm({Key? key}) : super(key: key);
@@ -14,7 +19,7 @@ class ConfirmPastForm extends StatefulWidget {
 
 class _ConfirmPastFormState extends State<ConfirmPastForm> {
   final _formKey = GlobalKey<FormState>();
-  //String _phone = '';
+
   String _password = '';
   String _password2 = '';
   bool _isPasswordVisible = true;
@@ -23,7 +28,12 @@ class _ConfirmPastFormState extends State<ConfirmPastForm> {
   final _passwordFocusNode = FocusNode();
   final _passwordFocusNode2 = FocusNode();
 
-  //final RegExp phoneRegex = RegExp(r'^[0-9]{3}-[0-9]{3}-[0-9]{4}$');
+  final Map data = {
+    'phone_number': '',
+    'token': '',
+    'password': '',
+    'password_confirmation': '',
+  };
 
   @override
   void initState() {
@@ -41,8 +51,6 @@ class _ConfirmPastFormState extends State<ConfirmPastForm> {
   void dispose() {
     _passwordFocusNode.dispose();
     _passwordFocusNode2.dispose();
-    // _phoneFocusNode.dispose();
-
     super.dispose();
   }
 
@@ -55,37 +63,47 @@ class _ConfirmPastFormState extends State<ConfirmPastForm> {
       return;
     }
     print('Form was submitted');
-    // print('Phone: ${_phone}');
     print('Password: ${_password}');
     print('Password: ${_password2}');
 
+    Provider.of<Data>(context, listen: false).data['password'] = _password;
+    Provider.of<Data>(context, listen: false).data['password_confirmation'] =
+        _password2;
+    print(
+        'comfirm_pass_format Central State: ${Provider.of<Data>(context, listen: false).data}');
+    print(
+        "Authorization: ${Provider.of<Data>(context, listen: false).data['token'].toString()}");
     getData();
   }
 
   void getData() async {
-    // ApiConnection apiConnection =
-    //     ApiConnection(password: _password, password2: _password2);
+    ApiConnection apiConnection = ApiConnection();
+    var data = {};
+    data = Provider.of<Data>(context, listen: false).data;
+    http.Response response =
+        await http.post(apiConnection.forgotPasswordSetPassword(),
+            headers: {
+              "Authorization": Provider.of<Data>(context, listen: false)
+                  .data['token']
+                  .toString()
+            },
+            body: data);
 
-    // http.Response response = await http.post(apiConnection.logInPostEndPoint());
-
-    // if (response.statusCode == 200 &&
-    //     jsonDecode(response.body)['data'] != null) {
-    //   String data = response.body;
-    //   print(data);
-    //   var aipToken = jsonDecode(data)['data']['api_personal_access_token'];
-    //   ScaffoldMessenger.of(context)
-    //       .showSnackBar(const SnackBar(content: Text('You are logged in')));
-    //   print(aipToken);
-    // }
-
-    // if (response.statusCode == 200 &&
-    //     (jsonDecode(response.body)['message'] != null)) {
-    //   print(response.statusCode);
-    //   String msg = response.body;
-    //   var err = jsonDecode(msg)['message'];
-    //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(err)));
-    //   print(msg);
-    // }
+    if (response.statusCode == 200 &&
+        jsonDecode(response.body)['message'] != null) {
+      String data = response.body;
+      print(data);
+      String msg = response.body;
+      var str = jsonDecode(msg)['message'];
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(str)));
+      print(str);
+      if (str == 'Password was updated' && (jsonDecode(msg)['status'] == 1)) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const CongratsScreen()),
+        );
+      }
+    }
   }
 
   @override
@@ -94,8 +112,8 @@ class _ConfirmPastFormState extends State<ConfirmPastForm> {
 
     return Form(
       key: _formKey,
-      child: SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
+      child: Container(
+        margin: const EdgeInsets.only(top: 0, right: 24, left: 24),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -106,38 +124,41 @@ class _ConfirmPastFormState extends State<ConfirmPastForm> {
                 height: 40,
               ),
               buildPassword2(),
+              const SizedBox(
+                height: 40,
+              ),
             ]),
-            const SizedBox(
-              height: 115,
-            ),
             Column(
               children: [
-                const SizedBox(height: 180),
+                const SizedBox(
+                  height: 200,
+                ),
                 RaisedButtonPG(
                   text: 'Save',
                   onPressedHandler: () {
-                    if (_password.isEmpty || _password2.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text(
-                              'Please fill up fields password and cofirm password')));
-                      print('Please enter password');
-                    }
-                    if (_password != _password2) {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text(
-                              "Fields password and confirm password don't match")));
-                      print("Fields password and confirm password don't match");
-                    }
-                    if ((_password.isNotEmpty && _password2.isNotEmpty) &&
-                        _password == _password2) {
-                      print('${_password}');
-                      print('${_password2}');
-
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const CongratsScreen()),
-                      );
+                    if (_formKey.currentState!.validate()) {
+                      // If the form is valid, display a snackbar. In the real world,
+                      // you'd often call a server or save the information in a database.
+                      print(_password);
+                      print(_password2);
+                      if (_password.isEmpty || _password2.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                            content: Text(
+                                'Please, fill up fields Password and Password Confirm')));
+                        print('Please enter password');
+                      }
+                      if (_password.toString() != _password2.toString()) {
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                            content: Text(
+                                "Fields Password and Password Confirm don't match")));
+                        print(
+                            "Fields Password and Password Confirm don't match");
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Processing Data')),
+                        );
+                        _saveForm();
+                      }
                     }
                   },
                 ),
@@ -186,18 +207,24 @@ class _ConfirmPastFormState extends State<ConfirmPastForm> {
           ),
         ),
         style: kInputTextStyle,
+        textInputAction: TextInputAction.next,
         obscureText: _isPasswordVisible,
         keyboardType: TextInputType.text,
         focusNode: _passwordFocusNode,
-        textInputAction: TextInputAction.next,
-        validator: (value) {
-          if (value == null || value.isEmpty) {
+        validator: (inputPassword) {
+          print(inputPassword);
+          if (inputPassword == null || inputPassword.isEmpty) {
             return 'Please enter a password';
           }
+          if (inputPassword.length < 8) {
+            return 'Password must be at least 8 characters';
+          }
+
           return null;
         },
-        onSaved: (value) {
-          _password = value!;
+        onSaved: (inputPassword) {
+          _password = inputPassword!;
+          data['password'] = inputPassword.toString();
         },
         onFieldSubmitted: (_) {
           FocusScope.of(context).requestFocus(_passwordFocusNode2);
@@ -205,7 +232,8 @@ class _ConfirmPastFormState extends State<ConfirmPastForm> {
       );
 
   Widget buildPassword2() => TextFormField(
-        onChanged: (value) => setState(() => _password2 = value),
+        onChanged: (inputPassword2) =>
+            setState(() => _password2 = inputPassword2),
         decoration: InputDecoration(
           labelStyle: TextStyle(
             color: _passwordFocusNode2.hasFocus
@@ -215,8 +243,8 @@ class _ConfirmPastFormState extends State<ConfirmPastForm> {
             fontSize: 14,
             fontWeight: FontWeight.w500,
           ),
-          hintText: 'Confirm Password',
-          labelText: 'Confirm Password *',
+          hintText: 'Password Confirm',
+          labelText: 'Password Confirm*',
           hintStyle: kInputHintTextStyle,
           errorStyle: kErrorTextStyle,
           focusedBorder: OutlineInputBorder(
@@ -241,18 +269,27 @@ class _ConfirmPastFormState extends State<ConfirmPastForm> {
           ),
         ),
         style: kInputTextStyle,
+        textInputAction: TextInputAction.next,
         obscureText: _isPasswordVisible2,
         keyboardType: TextInputType.text,
         focusNode: _passwordFocusNode2,
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please confirm a password';
+        validator: (inputPassword2) {
+          print(inputPassword2);
+          if (inputPassword2 == null || inputPassword2.isEmpty) {
+            return 'Please enter a password';
           }
+          if (inputPassword2.length < 8) {
+            return 'Password must be at least 8 characters';
+          }
+
           return null;
         },
-        onSaved: (value) {
-          _password2 = value!;
+        onSaved: (inputPassword2) {
+          _password2 = inputPassword2!;
+          data['password_confirmation'] = inputPassword2.toString();
         },
-        onFieldSubmitted: (_) {},
+        onFieldSubmitted: (_) {
+          _formKey.currentState!.validate();
+        },
       );
 }

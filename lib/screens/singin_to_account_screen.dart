@@ -5,6 +5,8 @@ import 'package:phone_login/forms/signin_form.dart';
 class SinginToAccountScreen extends StatelessWidget {
   const SinginToAccountScreen({ Key? key }) : super(key: key);
 
+  static const String id = 'singin_to_account_screen';
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
