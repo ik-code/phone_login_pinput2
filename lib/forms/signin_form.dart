@@ -34,7 +34,6 @@ class _SigninFormState extends State<SigninForm> {
   final RegExp phoneRegex = RegExp(r'^[0-9]{10}$');
   //RegExp(r'^[0-9]{3}-[0-9]{3}-[0-9]{4}$');
 
-  
   final Map data = {
     'phone_number': '',
     'token': '',
@@ -83,7 +82,14 @@ class _SigninFormState extends State<SigninForm> {
     ApiConnection apiConnection = ApiConnection(
         phoneNumber: (dialCodeDigits + _phone), password: _password);
 
-    http.Response response = await http.post(apiConnection.logInPostEndPoint());
+    http.Response response = await http
+        .post(
+          apiConnection.logInPostEndPoint(), 
+          body: { 
+            "phone_number": data['phone_number'],
+            "password": data['password'],
+            }
+          );
 
     if (response.statusCode == 200 &&
         jsonDecode(response.body)['data'] != null) {
@@ -253,7 +259,8 @@ class _SigninFormState extends State<SigninForm> {
         textInputAction: TextInputAction.next,
         onSaved: (inputPhone) {
           _phone = inputPhone!;
-          data['phone_number'] = dialCodeDigits.toString().substring(1) + inputPhone.toString();
+          data['phone_number'] =
+              dialCodeDigits.toString().substring(1) + inputPhone.toString();
         },
         onFieldSubmitted: (_) {
           FocusScope.of(context).requestFocus(_passwordFocusNode);
