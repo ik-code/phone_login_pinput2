@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:phone_login/config/api_connection.dart';
+import 'package:phone_login/screens/registration/stepper_screen.dart';
 import 'package:phone_login/screens/sms_verification/login_screen.dart';
 import 'package:phone_login/utilities/constans.dart';
 import 'package:phone_login/widgets/logo_pg.dart';
@@ -191,7 +192,16 @@ class _SigninFormState extends State<SigninForm> {
                     FlatButton(
                       child: const Text('Sing up'),
                       textColor: Colors.orange,
-                      onPressed: () {},
+                      onPressed: () {
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const StepperScreen()),
+                      );
+
+                      },
                     ),
                   ],
                 ),

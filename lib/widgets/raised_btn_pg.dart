@@ -4,7 +4,7 @@ import 'package:phone_login/utilities/constans.dart';
 
 class RaisedButtonPG extends StatelessWidget {
   final String text;
-  final VoidCallback onPressedHandler;
+  final VoidCallback? onPressedHandler;
 
   const RaisedButtonPG(
       {required this.text, required this.onPressedHandler, Key? key})

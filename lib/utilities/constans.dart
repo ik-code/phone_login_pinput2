@@ -80,6 +80,13 @@ const kButtonTextOrangeStyle = TextStyle(
     fontWeight: FontWeight.w800,
     color: Color(0xFFFB8D1C));
 
+////////////////////////////////////////////////////////////////////////////////
+///StepperPG////////////////////////////////////////////////////////////////////
+
+const kOrangePG =  Color(0xFFFB8D1C);
+const kWhitePG =  Color(0xFFFFFFFFF);
+
+
 
 // final kBigtitleTextStyle = GoogleFonts.manrope(
 //     textStyle: const TextStyle(
