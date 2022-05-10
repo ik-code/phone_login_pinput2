@@ -7,6 +7,7 @@ import 'package:phone_login/screens/singin_to_account_screen.dart';
 import 'package:phone_login/screens/sms_verification/login_screen.dart';
 import 'package:phone_login/screens/sms_verification/congrats_screen.dart';
 import 'package:phone_login/screens/sms_verification/reset_password_screen.dart';
+import 'package:phone_login/utilities/constans.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -46,6 +47,7 @@ class _MyAppState extends State<MyApp> {
           theme: ThemeData(
             fontFamily: 'Manrope',
             primarySwatch: Colors.grey,
+             unselectedWidgetColor: kGreyPg, 
           ),
           home: //const ErrorMessage()
               const SingInSingUpScreen(),
@@ -65,7 +67,6 @@ class _MyAppState extends State<MyApp> {
 }
 
 class Data extends ChangeNotifier {
-
     Map data = {
     'phone_number': '',
     'token': '',

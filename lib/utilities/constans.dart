@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 //import 'package:google_fonts/google_fonts.dart';
 
-
 const kBigtitleTextStyle = TextStyle(
     fontFamily: 'Manrope',
     fontSize: 24.0,
@@ -83,8 +82,9 @@ const kButtonTextOrangeStyle = TextStyle(
 ////////////////////////////////////////////////////////////////////////////////
 ///StepperPG////////////////////////////////////////////////////////////////////
 
-const kOrangePG =  Color(0xFFFB8D1C);
-const kWhitePG =  Color(0xFFFFFFFFF);
+const kOrangePG = Color(0xFFFB8D1C);
+const kWhitePG = Color(0xFFFFFFFFF);
+const kGreyPg = Color.fromRGBO(169, 169, 169, 1);
 
 
 

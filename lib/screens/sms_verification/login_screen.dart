@@ -1,5 +1,6 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:phone_login/screens/sms_verification/otp_controller_screen.dart';
 import 'package:phone_login/utilities/constans.dart';
@@ -89,13 +90,18 @@ class _LoginScreenState extends State<LoginScreen> {
             initialSelection: "US",
             showCountryOnly: false,
             showOnlyCountryWhenClosed: false,
-            favorite: const ["+1", "US","+44","UK" "+380", "UA"],
+            favorite: const ["+1", "US", "+44", "UK" "+380", "UA"],
           ),
         ),
         Container(
           margin: const EdgeInsets.only(top: 8, right: 24, left: 24),
           child: TextFormField(
             style: kInputTextStyle,
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(
+                RegExp(r"[0-9]"),
+              )
+            ],
             decoration: InputDecoration(
               labelText: 'Phone *',
               focusedBorder: OutlineInputBorder(

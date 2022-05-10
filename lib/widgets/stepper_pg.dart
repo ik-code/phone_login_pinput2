@@ -829,7 +829,7 @@ class _StepperPGState extends State<StepperPG> with TickerProviderStateMixin {
         Expanded(
           child: ListView(
             physics: widget.physics,
-            padding: const EdgeInsets.only(left:16.0, right:16.0, top: 50.0),
+            padding: const EdgeInsets.only(left:16.0, right:16.0, top: 30.0),
             children: <Widget>[
               AnimatedSize(
                 curve: Curves.fastOutSlowIn,

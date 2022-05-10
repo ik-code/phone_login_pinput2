@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:phone_login/config/api_connection.dart';
 import 'package:phone_login/screens/registration/stepper_screen.dart';
 import 'package:phone_login/screens/sms_verification/login_screen.dart';
@@ -83,14 +84,11 @@ class _SigninFormState extends State<SigninForm> {
     ApiConnection apiConnection = ApiConnection(
         phoneNumber: (dialCodeDigits + _phone), password: _password);
 
-    http.Response response = await http
-        .post(
-          apiConnection.logInPostEndPoint(), 
-          body: { 
-            "phone_number": data['phone_number'],
-            "password": data['password'],
-            }
-          );
+    http.Response response =
+        await http.post(apiConnection.logInPostEndPoint(), body: {
+      "phone_number": data['phone_number'],
+      "password": data['password'],
+    });
 
     if (response.statusCode == 200 &&
         jsonDecode(response.body)['data'] != null) {
@@ -193,14 +191,11 @@ class _SigninFormState extends State<SigninForm> {
                       child: const Text('Sing up'),
                       textColor: Colors.orange,
                       onPressed: () {
-
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                const StepperScreen()),
-                      );
-
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const StepperScreen()),
+                        );
                       },
                     ),
                   ],
@@ -221,6 +216,11 @@ class _SigninFormState extends State<SigninForm> {
   }
 
   Widget buildPhone() => TextFormField(
+        inputFormatters: [
+          FilteringTextInputFormatter.allow(
+            RegExp(r"[0-9]"),
+          )
+        ],
         decoration: InputDecoration(
           labelStyle: TextStyle(
             color: _passwordFocusNode.hasFocus

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:phone_login/screens/registration/stepper_screen.dart';
 import 'package:phone_login/screens/singin_to_account_screen.dart';
 import 'package:phone_login/utilities/constans.dart';
 import 'package:phone_login/widgets/logo_pg.dart';
@@ -53,7 +54,12 @@ class SingInSingUpScreen extends StatelessWidget {
                 ),
                  const SizedBox(height: 16,),
                  RaisedButtonPG(text: 'Sing up', onPressedHandler: (){
-
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const StepperScreen()),
+                      );
                  }),
                  const SizedBox(height: 32,),
               ],

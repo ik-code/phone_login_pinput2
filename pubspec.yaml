@@ -41,6 +41,7 @@ dependencies:
   pinput: ^2.2.7
   keyboard_actions: ^3.4.7
   http: ^0.13.4
+  getwidget: ^2.0.5
 
 dev_dependencies:
   flutter_test:

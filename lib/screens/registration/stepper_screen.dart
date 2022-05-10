@@ -1,9 +1,18 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:phone_login/config/api_connection.dart';
+import 'package:phone_login/screens/registration/otp_controller_registration_screen.dart';
 import 'package:phone_login/screens/singin_to_account_screen.dart';
+
 import 'package:phone_login/utilities/constans.dart';
-import 'package:phone_login/widgets/logo_pg.dart';
 import 'package:phone_login/widgets/raised_btn_pg.dart';
 import 'package:phone_login/widgets/stepper_pg.dart';
+import '../../utilities/validation.dart';
+import 'package:http/http.dart' as http;
 
 class StepperScreen extends StatefulWidget {
   const StepperScreen({Key? key}) : super(key: key);
@@ -25,15 +34,67 @@ class _StepperScreenState extends State<StepperScreen> {
   TextEditingController checkbox = TextEditingController();
 
   TextEditingController password = TextEditingController();
-  TextEditingController passwordConfirm = TextEditingController();
+  TextEditingController password2 = TextEditingController();
 
-  String _password = '';
-  String _password2 = '';
-  bool _isPasswordVisible = true;
-  bool _isPasswordVisible2 = true;
+  String dialCodeDigits = "+00";
+
+  final _firstNameFocusNode = FocusNode();
+  final _lastNameFocusNode = FocusNode();
+
+  final _emailFocusNode = FocusNode();
+  final _phoneNumberFocusNode = FocusNode();
 
   final _passwordFocusNode = FocusNode();
   final _passwordFocusNode2 = FocusNode();
+
+  bool _isPasswordVisible = true;
+  bool _isPasswordVisible2 = true;
+
+  final List<GlobalKey<FormState>> _formKeys = [
+    GlobalKey<FormState>(),
+    GlobalKey<FormState>(),
+    GlobalKey<FormState>()
+  ];
+
+  void accountRegistration() async {
+    ApiConnection apiConnection = ApiConnection(
+        firstName: firstName.text,
+        lastName: lastName.text,
+        email: email.text,
+        phoneNumber: (dialCodeDigits.substring(1) + phoneNumber.text),
+        password: password.text,
+        passwordConfirm: password2.text);
+    try {
+      http.Response response =
+          await http.post(apiConnection.registration(), body: {
+        "first_name": firstName.text,
+        "last_name": lastName.text,
+        "email": email.text,
+        "phone_number": (dialCodeDigits.substring(1) + phoneNumber.text),
+        "password": password.text,
+        "password_confirm": password2.text
+      });
+
+      if (response.statusCode == 200 &&
+          (jsonDecode(response.body)['message'] != null)) {
+        print(response.statusCode);
+        String resBody = response.body;
+        var message = jsonDecode(resBody)['message'];
+        var message0 = jsonDecode(resBody)['message'][0];
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(message)));
+        print(resBody);
+      } else {
+        print('Error');
+      }
+    } on SocketException {
+      throw Failure('No Internet connection 😑');
+    } on HttpException {
+      throw Failure("Couldn't find the post 😱");
+    } on FormatException {
+      throw Failure("Bad response format 👎");
+    }
+  }
 
   // Center buildComplete() {
   //   return Center(
@@ -71,74 +132,116 @@ class _StepperScreenState extends State<StepperScreen> {
               : StepPGState.indexed,
           isActive: _activeCurrentStep >= 0,
           title: const Text(''),
-          content: Column(
-            children: [
-              TextFormField(
-                controller: firstName,
-                decoration: InputDecoration(
-                  labelStyle: TextStyle(
-                    color: _passwordFocusNode2.hasFocus
-                        ? const Color(0xFF898A8D)
-                        : const Color(0xFF898A8D),
-                    fontFamily: 'Manrope',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  suffixIcon: Image.asset('images/user.png'),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  hintText: 'First Name',
-                  labelText: 'First Name *',
-                  hintStyle: kInputHintTextStyle,
-                  errorStyle: kErrorTextStyle,
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                    borderSide: const BorderSide(
-                      color: Color(0xFFFB8D1C),
-                      width: 2.0,
+          content: Form(
+            key: _formKeys[0],
+            child: Column(
+              children: [
+                TextFormField(
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(
+                      RegExp(r"[a-zA-Z]+|\s"),
+                    )
+                  ],
+                  validator: (firstNameInput) {
+                    if (firstNameInput!.length < 2) {
+                      return 'First Name must be greater than 1 characters';
+                    }
+                    if (firstNameInput.isValidName) {
+                      return 'Enter valid First Name';
+                    }
+                    return null;
+                  },
+                  controller: firstName,
+                  decoration: InputDecoration(
+                    labelStyle: TextStyle(
+                      color: _firstNameFocusNode.hasFocus
+                          ? const Color(0xFF898A8D)
+                          : const Color(0xFF898A8D),
+                      fontFamily: 'Manrope',
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    suffixIcon: Image.asset('images/user.png'),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    hintText: 'First Name',
+                    labelText: 'First Name *',
+                    hintStyle: kInputHintTextStyle,
+                    errorStyle: kErrorTextStyle,
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                      borderSide: const BorderSide(
+                        color: Color(0xFFFB8D1C),
+                        width: 2.0,
+                      ),
                     ),
                   ),
-                  
-                ),
-                style: kInputTextStyle,
-              ),
-              const SizedBox(
-                height: 50,
-              ),
-              TextFormField(
-                controller: lastName,
-                decoration: InputDecoration(
-                  labelStyle: TextStyle(
-                    color: _passwordFocusNode2.hasFocus
-                        ? const Color(0xFF898A8D)
-                        : const Color(0xFF898A8D),
-                    fontFamily: 'Manrope',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  suffixIcon: Image.asset('images/user.png'),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  hintText: 'Last Name',
-                  labelText: 'Last Name *',
-                  hintStyle: kInputHintTextStyle,
-                  errorStyle: kErrorTextStyle,
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                    borderSide: const BorderSide(
-                      color: Color(0xFFFB8D1C),
-                      width: 2.0,
-                    ),
-                  ),
-                ),
                   style: kInputTextStyle,
-              ),
-              const SizedBox(
-                height: 126,
-              ),
-            ],
+                  textInputAction: TextInputAction.next,
+                  keyboardType: TextInputType.text,
+                  focusNode: _firstNameFocusNode,
+                  onFieldSubmitted: (_) {
+                    FocusScope.of(context).requestFocus(_lastNameFocusNode);
+                  },
+                ),
+                const SizedBox(
+                  height: 50,
+                ),
+                TextFormField(
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(
+                      RegExp(r"[a-zA-Z]+|\s"),
+                    )
+                  ],
+                  validator: (lastNameInput) {
+                    if (lastNameInput!.length < 2) {
+                      return 'Last Name must be greater than 1 characters';
+                    }
+                    if (lastNameInput.isValidName) {
+                      return 'Enter valid Last Name';
+                    }
+                    return null;
+                  },
+                  controller: lastName,
+                  decoration: InputDecoration(
+                    labelStyle: TextStyle(
+                      color: _lastNameFocusNode.hasFocus
+                          ? const Color(0xFF898A8D)
+                          : const Color(0xFF898A8D),
+                      fontFamily: 'Manrope',
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    suffixIcon: Image.asset('images/user.png'),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    hintText: 'Last Name',
+                    labelText: 'Last Name *',
+                    hintStyle: kInputHintTextStyle,
+                    errorStyle: kErrorTextStyle,
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                      borderSide: const BorderSide(
+                        color: Color(0xFFFB8D1C),
+                        width: 2.0,
+                      ),
+                    ),
+                  ),
+                  style: kInputTextStyle,
+                  //textInputAction: TextInputAction.none,
+                  keyboardType: TextInputType.text,
+                  focusNode: _lastNameFocusNode,
+                  // onFieldSubmitted: (_) {
+                  //   FocusScope.of(context).requestFocus(_lastNameFocusNode);
+                  // },
+                ),
+                const SizedBox(
+                  height: 126,
+                ),
+              ],
+            ),
           ),
         ),
         StepPG(
@@ -147,92 +250,154 @@ class _StepperScreenState extends State<StepperScreen> {
                 : StepPGState.indexed,
             isActive: _activeCurrentStep >= 1,
             title: const Text(''),
-            content: Column(
-              children: [
-                TextFormField(
-                  controller: email,
-                  decoration: InputDecoration(
-                    labelStyle: TextStyle(
-                      color: _passwordFocusNode2.hasFocus
-                          ? const Color(0xFF898A8D)
-                          : const Color(0xFF898A8D),
-                      fontFamily: 'Manrope',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    suffixIcon: Image.asset('images/envelope.png'),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    hintText: 'Email',
-                    labelText: 'Email *',
-                    hintStyle: kInputHintTextStyle,
-                    errorStyle: kErrorTextStyle,
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide: const BorderSide(
-                        color: Color(0xFFFB8D1C),
-                        width: 2.0,
+            content: Form(
+              key: _formKeys[1],
+              child: Column(
+                children: [
+                  TextFormField(
+                    controller: email,
+                    decoration: InputDecoration(
+                      labelStyle: TextStyle(
+                        color: _emailFocusNode.hasFocus
+                            ? const Color(0xFF898A8D)
+                            : const Color(0xFF898A8D),
+                        fontFamily: 'Manrope',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      suffixIcon: Image.asset('images/envelope.png'),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      hintText: 'Email',
+                      labelText: 'Email *',
+                      hintStyle: kInputHintTextStyle,
+                      errorStyle: kErrorTextStyle,
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                        borderSide: const BorderSide(
+                          color: Color(0xFFFB8D1C),
+                          width: 2.0,
+                        ),
                       ),
                     ),
-                  ),
                     style: kInputTextStyle,
-                ),
-                const SizedBox(
-                  height: 50,
-                ),
-                TextFormField(
-                  controller: phoneNumber,
-                  decoration: InputDecoration(
-                    labelStyle: TextStyle(
-                      color: _passwordFocusNode2.hasFocus
-                          ? const Color(0xFF898A8D)
-                          : const Color(0xFF898A8D),
-                      fontFamily: 'Manrope',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
+                    textInputAction: TextInputAction.next,
+                    keyboardType: TextInputType.emailAddress,
+                    focusNode: _emailFocusNode,
+                    onFieldSubmitted: (_) {
+                      FocusScope.of(context)
+                          .requestFocus(_phoneNumberFocusNode);
+                    },
+                    validator: (emailInput) {
+                      if (!emailInput!.isValidEmail) {
+                        return 'Enter a valid Email';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(
+                    width: 400,
+                    height: 48,
+                    child: CountryCodePicker(
+                      onChanged: (country) {
+                        setState(() {
+                          dialCodeDigits = country.dialCode!;
+                        });
+                      },
+                      initialSelection: "US",
+                      showCountryOnly: false,
+                      showOnlyCountryWhenClosed: false,
+                      favorite: const ["+1", "US", "+380", "UA"],
                     ),
-                    suffixIcon: Image.asset('images/phone.png'),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    hintText: 'Phone Number',
-                    labelText: 'Phone Number *',
-                    hintStyle: kInputHintTextStyle,
-                    errorStyle: kErrorTextStyle,
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide: const BorderSide(
-                        color: Color(0xFFFB8D1C),
-                        width: 2.0,
+                  ),
+                  TextFormField(
+                    controller: phoneNumber,
+                    maxLength: 10,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(
+                        RegExp(r"[0-9]"),
+                      )
+                    ],
+                    decoration: InputDecoration(
+                      labelStyle: TextStyle(
+                        color: _phoneNumberFocusNode.hasFocus
+                            ? const Color(0xFF898A8D)
+                            : const Color(0xFF898A8D),
+                        fontFamily: 'Manrope',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      prefix: Padding(
+                        padding: const EdgeInsets.only(left: 4, right: 4),
+                        child: Text(
+                          dialCodeDigits,
+                          style: kInputTextStyle,
+                        ),
+                      ),
+                      suffixIcon: Image.asset('images/phone.png'),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      hintText: 'Phone Number',
+                      labelText: 'Phone Number *',
+                      hintStyle: kInputHintTextStyle,
+                      errorStyle: kErrorTextStyle,
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                        borderSide: const BorderSide(
+                          color: Color(0xFFFB8D1C),
+                          width: 2.0,
+                        ),
                       ),
                     ),
-                  ),
                     style: kInputTextStyle,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  children: [
-                    Checkbox(
-                        checkColor: kWhitePG,
-                        value: isChecked,
-                        onChanged: (bool? value) {
-                          setState(() {
-                            isChecked = value!;
-                          });
-                        }),
-                    const Text(
-                      'Enable push notifiications',
-                      style: kSmallTextStyle,
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 58,
-                ),
-              ],
+                    textInputAction: TextInputAction.next,
+                    keyboardType: TextInputType.phone,
+                    focusNode: _phoneNumberFocusNode,
+                    validator: (phoneInput) {
+                      if (!phoneInput!.isValidPhone) {
+                        return 'Enter a valid Phone Number';
+                      }
+
+                      return null;
+                    },
+                    onSaved: (inputPhone) {
+                      print('${inputPhone}');
+                    },
+                    onFieldSubmitted: (_) {
+                      //_formKeys[_activeCurrentStep].currentState!.validate();
+                      print('${phoneNumber.text}');
+                    },
+                  ),
+                  const SizedBox(
+                    height: 0,
+                  ),
+                  Row(
+                    children: [
+                      Transform.scale(
+                        scale: 0.72,
+                        child: Checkbox(
+                            activeColor: kOrangePG,
+                            checkColor: kWhitePG,
+                            value: isChecked,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                isChecked = value!;
+                              });
+                            }),
+                      ),
+                      const Text(
+                        'Enable push notifiications',
+                        style: kSmallTextStyle,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 58,
+                  ),
+                ],
+              ),
             )),
         StepPG(
             state: _activeCurrentStep <= 2
@@ -240,33 +405,38 @@ class _StepperScreenState extends State<StepperScreen> {
                 : StepPGState.indexed,
             isActive: _activeCurrentStep >= 2,
             title: const Text(''),
-            content: Column(
-              children: [
-                buildPassword(),
-                const SizedBox(
-                  height: 50,
-                ),
-                buildPassword2(),
-                const SizedBox(
-                  height: 126,
-                ),
-              ],
+            content: Form(
+              key: _formKeys[2],
+              child: Column(
+                children: [
+                  buildPassword(),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  buildPassword2(),
+                  const SizedBox(
+                    height: 126,
+                  ),
+                ],
+              ),
             )),
-        // Step(
-        // state: StepState.complete,
-        // isActive: _activeCurrentStep >= 4,
-        // title: const Text('Confirm'),
-        // content: Container(
-        //     child: Column(
-        //   crossAxisAlignment: CrossAxisAlignment.stretch,
-        //   mainAxisAlignment: MainAxisAlignment.start,
-        //   children: [
-        //     Text('First Name: ${firstName.text}'),
-        //     Text('Last Name: ${lastName.text}'),
-        //     Text('Email : ${email.text}'),
-        //     Text('Phone Number : ${phoneNumber.text}'),
-        //   ],
-        // )))
+        StepPG(
+            state: StepPGState.complete,
+            isActive: _activeCurrentStep >= 3,
+            title: const Text('Confirm'),
+            content: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text('First Name: ${firstName.text}'),
+                Text('Last Name: ${lastName.text}'),
+                Text('Email : ${email.text}'),
+                Text('Phone Number : ${dialCodeDigits + phoneNumber.text}'),
+                Text('Checkbox : $isChecked'),
+                Text('Password : ${password.text}'),
+                Text('Password Confirm : ${password2.text}'),
+              ],
+            ))
       ];
 
   @override
@@ -279,6 +449,7 @@ class _StepperScreenState extends State<StepperScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 0),
             child: StepperPG(
               //https://api.flutter.dev/flutter/material/Stepper-class.html
+
               type: StepperTypePG.horizontal,
               currentStep: _activeCurrentStep,
               steps: stepList(),
@@ -291,10 +462,35 @@ class _StepperScreenState extends State<StepperScreen> {
                   setState(() => isCompleted = true);
 
                   print('Competed');
+
+                  //SMS Firebase validation
+                 
+                print(dialCodeDigits);
+                print(phoneNumber.text);
+
+                if(isChecked){
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => OTPControllerRegistrationScreen(
+                          phone: phoneNumber.text,
+                          codeDigits: dialCodeDigits,
+                        )));
+                
                   //send data to the server
+      
+                  // accountRegistration();!!!!!
+                }
+                  
                 } else {
                   //increment
-                  setState((() => _activeCurrentStep += 1));
+                  if (_formKeys[_activeCurrentStep].currentState!.validate()) {
+                    print('CurrentSteop: $_activeCurrentStep');
+                    setState((() => {
+                          if (_activeCurrentStep == 1 && isChecked == false)
+                            {_activeCurrentStep}
+                          else
+                            {_activeCurrentStep += 1}
+                        }));
+                  }
                 }
               },
               onStepCancel: () {
@@ -343,7 +539,7 @@ class _StepperScreenState extends State<StepperScreen> {
                               ),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           RaisedButtonPG(
@@ -370,7 +566,7 @@ class _StepperScreenState extends State<StepperScreen> {
   }
 
   Widget buildPassword() => TextFormField(
-        onChanged: (value) => setState(() => _password = value),
+        controller: password,
         decoration: InputDecoration(
           labelStyle: TextStyle(
             color: _passwordFocusNode.hasFocus
@@ -421,18 +617,13 @@ class _StepperScreenState extends State<StepperScreen> {
 
           return null;
         },
-        onSaved: (inputPassword) {
-          _password = inputPassword!;
-          //data['password'] = inputPassword.toString();
-        },
         onFieldSubmitted: (_) {
           FocusScope.of(context).requestFocus(_passwordFocusNode2);
         },
       );
 
   Widget buildPassword2() => TextFormField(
-        onChanged: (inputPassword2) =>
-            setState(() => _password2 = inputPassword2),
+        controller: password2,
         decoration: InputDecoration(
           labelStyle: TextStyle(
             color: _passwordFocusNode2.hasFocus
@@ -480,15 +671,16 @@ class _StepperScreenState extends State<StepperScreen> {
           if (inputPassword2.length < 8) {
             return 'Password must be at least 8 characters';
           }
+          if (password.text != inputPassword2.toString()) {
+            print('Password :${password.text}');
+            print('Password Confirm: $inputPassword2');
+            return 'Password Confirm not equal Password';
+          }
 
           return null;
         },
-        onSaved: (inputPassword2) {
-          _password2 = inputPassword2!;
-          // data['password_confirmation'] = inputPassword2.toString();
-        },
         onFieldSubmitted: (_) {
-          // _formKey.currentState!.validate();
+          // _formKeys[_activeCurrentStep].currentState!.validate();
         },
       );
 }
