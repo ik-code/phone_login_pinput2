@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -50,6 +51,8 @@ class _StepperScreenState extends State<StepperScreen> {
   bool _isPasswordVisible = true;
   bool _isPasswordVisible2 = true;
 
+  bool btnRegisterAccount = false;
+
   final List<GlobalKey<FormState>> _formKeys = [
     GlobalKey<FormState>(),
     GlobalKey<FormState>(),
@@ -84,6 +87,10 @@ class _StepperScreenState extends State<StepperScreen> {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text(message)));
         print(resBody);
+
+        //disable btn 'Register Account'
+        btnRegisterAccount = true;
+
       } else {
         print('Error');
       }
@@ -420,23 +427,24 @@ class _StepperScreenState extends State<StepperScreen> {
                 ],
               ),
             )),
-        StepPG(
-            state: StepPGState.complete,
-            isActive: _activeCurrentStep >= 3,
-            title: const Text('Confirm'),
-            content: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text('First Name: ${firstName.text}'),
-                Text('Last Name: ${lastName.text}'),
-                Text('Email : ${email.text}'),
-                Text('Phone Number : ${dialCodeDigits + phoneNumber.text}'),
-                Text('Checkbox : $isChecked'),
-                Text('Password : ${password.text}'),
-                Text('Password Confirm : ${password2.text}'),
-              ],
-            ))
+        // StepPG(
+        //     state: StepPGState.complete,
+        //     isActive: _activeCurrentStep >= 3,
+        //     title: const Text('Confirm'),
+        //     content: Column(
+        //       crossAxisAlignment: CrossAxisAlignment.stretch,
+        //       mainAxisAlignment: MainAxisAlignment.start,
+        //       children: [
+        //         Text('First Name: ${firstName.text}'),
+        //         Text('Last Name: ${lastName.text}'),
+        //         Text('Email : ${email.text}'),
+        //         Text('Phone Number : ${dialCodeDigits + phoneNumber.text}'),
+        //         Text('Checkbox : $isChecked'),
+        //         Text('Password : ${password.text}'),
+        //         Text('Password Confirm : ${password2.text}'),
+        //       ],
+        //     ),
+        //   )
       ];
 
   @override
@@ -464,22 +472,22 @@ class _StepperScreenState extends State<StepperScreen> {
                   print('Competed');
 
                   //SMS Firebase validation
-                 
-                print(dialCodeDigits);
-                print(phoneNumber.text);
 
-                if(isChecked){
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => OTPControllerRegistrationScreen(
-                          phone: phoneNumber.text,
-                          codeDigits: dialCodeDigits,
-                        )));
-                
-                  //send data to the server
-      
-                  // accountRegistration();!!!!!
-                }
-                  
+                  print(dialCodeDigits);
+                  print(phoneNumber.text);
+
+                  if (isChecked) {
+                    //send data to the server
+                    accountRegistration();
+                    Timer(
+                        const Duration(seconds: 5),
+                        () => Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) =>
+                                OTPControllerRegistrationScreen(
+                                  phone: phoneNumber.text,
+                                  codeDigits: dialCodeDigits,
+                                ))));
+                  }
                 } else {
                   //increment
                   if (_formKeys[_activeCurrentStep].currentState!.validate()) {
@@ -543,8 +551,8 @@ class _StepperScreenState extends State<StepperScreen> {
                             height: 20,
                           ),
                           RaisedButtonPG(
-                            text: 'Next',
-                            onPressedHandler: details.onStepContinue,
+                            text: isLastStep ? 'Register Account' : 'Next',
+                            onPressedHandler: btnRegisterAccount ? null : details.onStepContinue,
                           ),
                         ],
                       ),
@@ -659,7 +667,7 @@ class _StepperScreenState extends State<StepperScreen> {
           ),
         ),
         style: kInputTextStyle,
-        textInputAction: TextInputAction.next,
+        textInputAction: TextInputAction.done,
         obscureText: _isPasswordVisible2,
         keyboardType: TextInputType.text,
         focusNode: _passwordFocusNode2,

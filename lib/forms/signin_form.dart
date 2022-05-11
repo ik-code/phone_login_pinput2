@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:country_code_picker/country_code_picker.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phone_login/config/api_connection.dart';
 import 'package:phone_login/screens/registration/stepper_screen.dart';
+import 'package:phone_login/screens/services_getways/sg_list_sreen.dart';
 import 'package:phone_login/screens/sms_verification/login_screen.dart';
 import 'package:phone_login/utilities/constans.dart';
 import 'package:phone_login/widgets/logo_pg.dart';
@@ -105,6 +107,11 @@ class _SigninFormState extends State<SigninForm> {
       _formKey.currentState?.reset();
 
       print('Central State Sing Form: ${data}');
+
+      Timer(
+          const Duration(seconds: 5),
+          () => Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => SgListSreen())));
     }
 
     if (response.statusCode == 200 &&
