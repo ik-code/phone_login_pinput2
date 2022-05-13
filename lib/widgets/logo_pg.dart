@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 
 class LogoPG extends StatelessWidget {
   final String imgFile;
+  final double heightMarginTop;
 
-  const LogoPG({required this.imgFile, Key? key}) : super(key: key);
+  const LogoPG({required this.imgFile, this.heightMarginTop = 40, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      children:  [
-        const SizedBox(
-          height: 40,
+      children: [
+         SizedBox(
+          height: heightMarginTop,
         ),
         Image(
-          image:
-              AssetImage('images/${imgFile}'),
+          image: AssetImage('images/${imgFile}'),
         ),
       ],
     );

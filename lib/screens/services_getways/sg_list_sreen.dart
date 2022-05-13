@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:phone_login/screens/menu_screen.dart';
 import 'package:phone_login/utilities/constans.dart';
 import 'package:phone_login/widgets/logo_pg.dart';
 
 class SgListSreen extends StatelessWidget {
-const SgListSreen({ Key? key }) : super(key: key);
+  const SgListSreen({Key? key}) : super(key: key);
 
   @override
   @override
@@ -11,33 +12,42 @@ const SgListSreen({ Key? key }) : super(key: key);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-      
         backgroundColor: Colors.white,
         elevation: 0.0,
-        leading: IconButton(
-          icon: IconButton(
-            icon: Container(
-              width: 30,
-              height: 30,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: LinearGradient(colors: [
-                  Color(0xFFFEFBDA),
-                  Color(0xFFFEE9D2),
-                ]),
-              ),
-              child: const Icon(Icons.menu),
-            ),
-            iconSize: 30,
-            color: const Color(0xFF212121),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+        // leading:
+        // IconButton(
+        //   icon: IconButton(
+        //     icon: const Icon(Icons.menu),
+        //     iconSize: 30,
+        //     color: const Color(0xFF212121),
+        //     onPressed: () {
+        //       Navigator.pop(context);
+        //     },
+        //   ),
+        //   onPressed: () => Navigator.of(context).pop(),
+        // ),
         toolbarHeight: 80,
-        title: const LogoPG(imgFile: 'playground_logo_orange.png'),
+        title: Row(
+          children: [
+            const SizedBox(width: 10,),
+            const LogoPG(
+                heightMarginTop: 0, imgFile: 'playground_logo_orange.png'),
+              Spacer(),
+            IconButton(
+              icon: const Icon(Icons.menu),
+              iconSize: 40,
+              color: const Color(0xFF212121),
+              onPressed: () {
+                                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const MenuScreen()),
+                      );
+              },
+            ),
+          ],
+        ),
       ),
       body:
           Column(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
@@ -54,5 +64,4 @@ const SgListSreen({ Key? key }) : super(key: key);
       ]),
     );
   }
-
 }

@@ -51,8 +51,8 @@ class _MyAppState extends State<MyApp> {
             unselectedWidgetColor: kGreyPg,
           ),
           home: //const ErrorMessage()
-              const SingInSingUpScreen(),
-
+              // const SingInSingUpScreen(),
+              const SgListSreen(),
           //---SMS Verification---
           //const LoginScreen(),
           // const ResetPasswordScreen(),
