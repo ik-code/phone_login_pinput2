@@ -48,11 +48,10 @@ class _MyAppState extends State<MyApp> {
           theme: ThemeData(
             fontFamily: 'Manrope',
             primarySwatch: Colors.grey,
-             unselectedWidgetColor: kGreyPg, 
+            unselectedWidgetColor: kGreyPg,
           ),
           home: //const ErrorMessage()
               const SingInSingUpScreen(),
-                             
 
           //---SMS Verification---
           //const LoginScreen(),
@@ -61,15 +60,14 @@ class _MyAppState extends State<MyApp> {
           routes: {
             'singin_to_account_screen': (context) =>
                 const SinginToAccountScreen(),
-            'reset_password_screen': (context) =>
-                const ResetPasswordScreen(),
+            'reset_password_screen': (context) => const ResetPasswordScreen(),
           }),
     );
   }
 }
 
 class Data extends ChangeNotifier {
-    Map data = {
+  Map data = {
     'phone_number': '',
     'token': '',
     'password': '',

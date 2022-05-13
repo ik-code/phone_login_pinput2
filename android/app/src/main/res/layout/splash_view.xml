@@ -8,18 +8,19 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="horizontal"
-    android:background="@drawable/launch_background">
+    android:background="@drawable/background">
 </LinearLayout>
 
     <com.airbnb.lottie.LottieAnimationView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="283dp"
+        android:layout_height="50dp"
+  app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
         app:lottie_autoPlay="true"
         app:lottie_rawRes="@raw/splash_screen"
-        app:lottie_loop="true"
+        app:lottie_loop="false"
         app:lottie_speed="1.00" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
