@@ -18,6 +18,7 @@ Future<void> main() async {
     statusBarBrightness: Brightness.light,
     systemNavigationBarColor: Colors.white,
     systemNavigationBarIconBrightness: Brightness.dark,
+  
   ));
 
   WidgetsFlutterBinding.ensureInitialized();
