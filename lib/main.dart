@@ -52,15 +52,15 @@ class _MyAppState extends State<MyApp> {
             unselectedWidgetColor: kGreyPg,
           ),
           home: //const ErrorMessage()
-              // const SingInSingUpScreen(),
-              const SgListSreen(),
+               const SingInSingUpScreen(),
+              // const SgListSreen(),
           //---SMS Verification---
           //const LoginScreen(),
           // const ResetPasswordScreen(),
           // const CongratsScreen(),
           routes: {
             'singin_to_account_screen': (context) =>
-                const SinginToAccountScreen(),
+                const AuthScreen(),
             'reset_password_screen': (context) => const ResetPasswordScreen(),
           }),
     );

@@ -57,7 +57,7 @@ class _OTPControllerRegistrationScreenState extends State<OTPControllerRegistrat
               .then((value) {
             if (value.user != null) {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const SinginToAccountScreen()));
+                  builder: (context) => const AuthScreen()));
             }
           });
         },
@@ -158,7 +158,7 @@ class _OTPControllerRegistrationScreenState extends State<OTPControllerRegistrat
                         .then((value) {
                       if (value.user != null) {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const SinginToAccountScreen()));
+                            builder: (context) => const AuthScreen()));
                       }
                     });
                   } catch (e) {

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:phone_login/forms/signin_form.dart';
 
 
-class SinginToAccountScreen extends StatelessWidget {
-  const SinginToAccountScreen({ Key? key }) : super(key: key);
+class AuthScreen extends StatelessWidget {
+  const AuthScreen({ Key? key }) : super(key: key);
 
   static const String id = 'singin_to_account_screen';
   

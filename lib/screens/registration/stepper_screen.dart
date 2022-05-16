@@ -541,7 +541,7 @@ class _StepperScreenState extends State<StepperScreen> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const SinginToAccountScreen()),
+                                            const AuthScreen()),
                                   );
                                 },
                               ),
