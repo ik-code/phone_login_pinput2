@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:phone_login/screens/singin_to_account_screen.dart';
+import 'package:phone_login/screens/auth_screen.dart';
 import 'package:phone_login/screens/sms_verification/congrats_screen.dart';
 import 'package:phone_login/screens/sms_verification/reset_password_screen.dart';
 import 'package:phone_login/utilities/constans.dart';

@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phone_login/config/api_connection.dart';
 import 'package:phone_login/screens/registration/otp_controller_registration_screen.dart';
-import 'package:phone_login/screens/singin_to_account_screen.dart';
+import 'package:phone_login/screens/auth_screen.dart';
 
 import 'package:phone_login/utilities/constans.dart';
 import 'package:phone_login/widgets/raised_btn_pg.dart';

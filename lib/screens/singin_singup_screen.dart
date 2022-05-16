@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:phone_login/screens/registration/stepper_screen.dart';
-import 'package:phone_login/screens/singin_to_account_screen.dart';
+import 'package:phone_login/screens/auth_screen.dart';
 import 'package:phone_login/utilities/constans.dart';
 import 'package:phone_login/widgets/logo_pg.dart';
 import 'package:phone_login/widgets/outlinebutton_pg.dart';
