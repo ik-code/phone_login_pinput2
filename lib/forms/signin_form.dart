@@ -16,6 +16,7 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 import '../main.dart';
+import '../providers/auth.dart';
 
 class SigninForm extends StatefulWidget {
   const SigninForm({Key? key}) : super(key: key);
@@ -25,9 +26,19 @@ class SigninForm extends StatefulWidget {
 }
 
 class _SigninFormState extends State<SigninForm> {
-  String apiPersonalAccessToken = '';
-  String dialCodeDigits = "+1";
   final _formKey = GlobalKey<FormState>();
+
+  final Map<String, String> _authData = {
+    "phone_number": '',
+    "password": '',
+    'password_confirmation': '',
+    'token': '',
+  };
+
+  var _isLoading = false;
+
+  String _apiPersonalAccessToken = '';
+  String _dialCodeDigits = "+1";
   String _phone = '';
   String _password = '';
   bool _isPasswordVisible = true;
@@ -38,12 +49,12 @@ class _SigninFormState extends State<SigninForm> {
   final RegExp phoneRegex = RegExp(r'^[0-9]{10}$');
   //RegExp(r'^[0-9]{3}-[0-9]{3}-[0-9]{4}$');
 
-  final Map data = {
-    'phone_number': '',
-    'token': '',
-    'password': '',
-    'password_confirmation': '',
-  };
+  // final Map data = {
+  //   'phone_number': '',
+  //   'token': '',
+  //   'password': '',
+  //   'password_confirmation': '',
+  // };
 
   @override
   void initState() {
@@ -65,7 +76,7 @@ class _SigninFormState extends State<SigninForm> {
     super.dispose();
   }
 
-  void _saveForm() async {
+  Future<void> _submit() async {
     _formKey.currentState?.save();
 
     final isValid = _formKey.currentState!.validate();
@@ -74,55 +85,58 @@ class _SigninFormState extends State<SigninForm> {
       return;
     }
     print('Form was submitted');
-    print('DialCode: ${dialCodeDigits}');
+    print('DialCode: ${_dialCodeDigits}');
 
     print('Phone: ${_phone}');
     print('Password: ${_password}');
 
-    getData();
+    await Provider.of<Auth>(context, listen: false)
+        .login((_dialCodeDigits.substring(1) + _phone), _password);
+
+    //getData();
   }
 
-  void getData() async {
-    ApiConnection apiConnection = ApiConnection(
-        phoneNumber: (dialCodeDigits + _phone), password: _password);
+  // void getData() async {
+  //   ApiConnection apiConnection = ApiConnection(
+  //       phoneNumber: (_dialCodeDigits + _phone), password: _password);
 
-    http.Response response =
-        await http.post(apiConnection.logInPostEndPoint(), body: {
-      "phone_number": data['phone_number'],
-      "password": data['password'],
-    });
+  //   http.Response response =
+  //       await http.post(apiConnection.logInPostEndPoint(), body: {
+  //     "phone_number": _authData['phone_number'],
+  //     "password": _authData['password'],
+  //   });
 
-    if (response.statusCode == 200 &&
-        jsonDecode(response.body)['data'] != null) {
-      String res = response.body;
-      print(res);
-      var apiToken = jsonDecode(res)['data']['api_personal_access_token'];
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('You are logged in')));
-      print(apiToken);
+  //   if (response.statusCode == 200 &&
+  //       jsonDecode(response.body)['data'] != null) {
+  //     String res = response.body;
+  //     print(res);
+  //     var apiToken = jsonDecode(res)['data']['api_personal_access_token'];
+  //     ScaffoldMessenger.of(context)
+  //         .showSnackBar(const SnackBar(content: Text('You are logged in')));
+  //     print(apiToken);
 
-      data['token'] = apiToken;
-      _formKey.currentState?.save();
-      Provider.of<Data>(context, listen: false).updateAccount(data);
-      _formKey.currentState?.reset();
+  //     _authData['token'] = apiToken;
+  //     _formKey.currentState?.save();
+  //     Provider.of<Data>(context, listen: false).updateAccount(_authData);
+  //     _formKey.currentState?.reset();
 
-      print('Central State Sing Form: ${data}');
+  //     print('Central State Sing Form: ${_authData}');
 
-      Timer(
-          const Duration(seconds: 5),
-          () => Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => SgListSreen())));
-    }
+  //     Timer(
+  //         const Duration(seconds: 5),
+  //         () => Navigator.of(context)
+  //             .push(MaterialPageRoute(builder: (context) => SgListSreen())));
+  //   }
 
-    if (response.statusCode == 200 &&
-        (jsonDecode(response.body)['message'] != null)) {
-      print(response.statusCode);
-      String msg = response.body;
-      var err = jsonDecode(msg)['message'];
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(err)));
-      print(msg);
-    }
-  }
+  //   if (response.statusCode == 200 &&
+  //       (jsonDecode(response.body)['message'] != null)) {
+  //     print(response.statusCode);
+  //     String msg = response.body;
+  //     var err = jsonDecode(msg)['message'];
+  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(err)));
+  //     print(msg);
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -152,7 +166,7 @@ class _SigninFormState extends State<SigninForm> {
                 child: CountryCodePicker(
                   onChanged: (country) {
                     setState(() {
-                      dialCodeDigits = country.dialCode!;
+                      _dialCodeDigits = country.dialCode!;
                     });
                   },
                   initialSelection: "US",
@@ -211,7 +225,7 @@ class _SigninFormState extends State<SigninForm> {
                 RaisedButtonPG(
                   text: 'Sing in',
                   onPressedHandler: () {
-                    _saveForm();
+                    _submit();
                   },
                 ),
               ],
@@ -241,7 +255,7 @@ class _SigninFormState extends State<SigninForm> {
           prefix: Padding(
             padding: const EdgeInsets.only(left: 4, right: 4),
             child: Text(
-              dialCodeDigits,
+              _dialCodeDigits,
               style: kInputTextStyle,
             ),
           ),
@@ -276,8 +290,8 @@ class _SigninFormState extends State<SigninForm> {
         textInputAction: TextInputAction.next,
         onSaved: (inputPhone) {
           _phone = inputPhone!;
-          data['phone_number'] =
-              dialCodeDigits.toString().substring(1) + inputPhone.toString();
+          _authData['phone_number'] =
+              _dialCodeDigits.toString().substring(1) + inputPhone.toString();
         },
         onFieldSubmitted: (_) {
           FocusScope.of(context).requestFocus(_passwordFocusNode);
@@ -343,7 +357,7 @@ class _SigninFormState extends State<SigninForm> {
         },
         onSaved: (inputPassword) {
           _password = inputPassword!;
-          data['password'] = inputPassword.toString();
+          _authData['password'] = inputPassword.toString();
         },
         onFieldSubmitted: (_) {},
       );
