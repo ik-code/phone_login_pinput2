@@ -12,32 +12,61 @@ import 'package:phone_login/screens/auth_screen.dart';
 import 'package:phone_login/utilities/constans.dart';
 import 'package:phone_login/widgets/raised_btn_pg.dart';
 import 'package:phone_login/widgets/stepper_pg.dart';
+import 'package:provider/provider.dart';
+import '../../providers/auth.dart';
 import '../../utilities/validation.dart';
 import 'package:http/http.dart' as http;
 
+enum AuthMode { Signup, Login }
+
 class StepperScreen extends StatefulWidget {
   const StepperScreen({Key? key}) : super(key: key);
+  static const routeName = '/registration';
 
   @override
   _StepperScreenState createState() => _StepperScreenState();
 }
 
 class _StepperScreenState extends State<StepperScreen> {
+  // final GlobalKey<FormState> _formKey = GlobalKey();
+  final AuthMode _authMode = AuthMode.Signup;
+  final Map<String, String> _authData = {
+    "first_name": '',
+    "last_name": '',
+    "email": '',
+    "phone_number": '',
+    "password": '',
+    "password_confirm": ''
+  };
+  var _isLoading = false;
+
+  final _firstName = TextEditingController();
+  final _lastName = TextEditingController();
+
+  final _email = TextEditingController();
+  final _phoneNumber = TextEditingController();
+  final _checkbox = TextEditingController();
+
+  final _password = TextEditingController();
+  final _password2 = TextEditingController();
+
+////////////////////////////////////////////////////////
+
   int _activeCurrentStep = 0;
   bool isCompleted = false;
   bool isChecked = false;
 
-  TextEditingController firstName = TextEditingController();
-  TextEditingController lastName = TextEditingController();
+  // TextEditingController firstName = TextEditingController();
+  // TextEditingController lastName = TextEditingController();
 
-  TextEditingController email = TextEditingController();
-  TextEditingController phoneNumber = TextEditingController();
-  TextEditingController checkbox = TextEditingController();
+  // TextEditingController email = TextEditingController();
+  // TextEditingController phoneNumber = TextEditingController();
+  // TextEditingController checkbox = TextEditingController();
 
-  TextEditingController password = TextEditingController();
-  TextEditingController password2 = TextEditingController();
+  // TextEditingController password = TextEditingController();
+  // TextEditingController password2 = TextEditingController();
 
-  String dialCodeDigits = "+00";
+  String _dialCodeDigits = "+00";
 
   final _firstNameFocusNode = FocusNode();
   final _lastNameFocusNode = FocusNode();
@@ -59,77 +88,91 @@ class _StepperScreenState extends State<StepperScreen> {
     GlobalKey<FormState>()
   ];
 
-  void accountRegistration() async {
-    ApiConnection apiConnection = ApiConnection(
-        firstName: firstName.text,
-        lastName: lastName.text,
-        email: email.text,
-        phoneNumber: (dialCodeDigits.substring(1) + phoneNumber.text),
-        password: password.text,
-        passwordConfirm: password2.text);
-    try {
-      http.Response response =
-          await http.post(apiConnection.registration(), body: {
-        "first_name": firstName.text,
-        "last_name": lastName.text,
-        "email": email.text,
-        "phone_number": (dialCodeDigits.substring(1) + phoneNumber.text),
-        "password": password.text,
-        "password_confirm": password2.text
-      });
-
-      if (response.statusCode == 200 &&
-          (jsonDecode(response.body)['message'] != null)) {
-        print(response.statusCode);
-        String resBody = response.body;
-        var message = jsonDecode(resBody)['message'];
-        var message0 = jsonDecode(resBody)['message'][0];
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(message)));
-        print(resBody);
-
-        //disable btn 'Register Account'
-        btnRegisterAccount = true;
-
-      } else {
-        print('Error');
-      }
-    } on SocketException {
-      throw Failure('No Internet connection 😑');
-    } on HttpException {
-      throw Failure("Couldn't find the post 😱");
-    } on FormatException {
-      throw Failure("Bad response format 👎");
-    }
+  Future<void> _submit() async {
+    // if (_formKeys[_activeCurrentStep]!.validate()) {
+    //   // Invalid!
+    //   return;
+    // }
+    //  _formKeys[_activeCurrentStep].currentState!.save();
+    setState(() {
+      _isLoading = true;
+    });
+    // if (_authMode == AuthMode.Login) {
+    //   // Log user in
+    // } else {
+    // Sign user up
+    print(_firstName.text);
+    print(_lastName.text);
+    print(_email.text);
+    print((_dialCodeDigits.substring(1) + _phoneNumber.text));
+    print(_password.text);
+    print(_password2.text);
+    await Provider.of<Auth>(context, listen: false).signup(
+        _firstName.text,
+        _lastName.text,
+        _email.text,
+        (_dialCodeDigits.substring(1) + _phoneNumber.text),
+        _password.text,
+        _password2.text);
+    //}
+    setState(() {
+      _isLoading = false;
+    });
   }
 
-  // Center buildComplete() {
-  //   return Center(
-  //     child: Column(
-  //       children: <Widget>[
-  //         const Text('Completed!!!'),
-  //         ElevatedButton(
-  //           onPressed: (() {
-  //             setState(() {
-  //               _activeCurrentStep = 0;
-  //               isCompleted = false;
+  // void _switchAuthMode() {
+  //   if (_authMode == AuthMode.Login) {
+  //     setState(() {
+  //       _authMode = AuthMode.Signup;
+  //     });
+  //   } else {
+  //     setState(() {
+  //       _authMode = AuthMode.Login;
+  //     });
+  //   }
+  // }
 
-  //               firstName.clear();
-  //               lastName.clear();
+  // void accountRegistration() async {
+  //   ApiConnection apiConnection = ApiConnection(
+  //       firstName: firstName.text,
+  //       lastName: lastName.text,
+  //       email: email.text,
+  //       phoneNumber: (_dialCodeDigits.substring(1) + phoneNumber.text),
+  //       password: password.text,
+  //       passwordConfirm: password2.text);
+  //   try {
+  //     http.Response response =
+  //         await http.post(apiConnection.registration(), body: {
+  //       "first_name": firstName.text,
+  //       "last_name": lastName.text,
+  //       "email": email.text,
+  //       "phone_number": (_dialCodeDigits.substring(1) + phoneNumber.text),
+  //       "password": password.text,
+  //       "password_confirm": password2.text
+  //     });
 
-  //               email.clear();
-  //               phoneNumber.clear();
-  //               checkbox.clear();
+  //     if (response.statusCode == 200 &&
+  //         (jsonDecode(response.body)['message'] != null)) {
+  //       print(response.statusCode);
+  //       String resBody = response.body;
+  //       var message = jsonDecode(resBody)['message'];
+  //       var message0 = jsonDecode(resBody)['message'][0];
+  //       ScaffoldMessenger.of(context)
+  //           .showSnackBar(SnackBar(content: Text(message)));
+  //       print(resBody);
 
-  //               password.clear();
-  //               passwordConfirm.clear();
-  //             });
-  //           }),
-  //           child: const Text('Reset'),
-  //         ),
-  //       ],
-  //     ),
-  //   );
+  //       //disable btn 'Register Account'
+  //       btnRegisterAccount = true;
+  //     } else {
+  //       print('Error');
+  //     }
+  //   } on SocketException {
+  //     throw Failure('No Internet connection 😑');
+  //   } on HttpException {
+  //     throw Failure("Couldn't find the post 😱");
+  //   } on FormatException {
+  //     throw Failure("Bad response format 👎");
+  //   }
   // }
 
   List<StepPG> stepList() => [
@@ -158,7 +201,7 @@ class _StepperScreenState extends State<StepperScreen> {
                     }
                     return null;
                   },
-                  controller: firstName,
+                  controller: _firstName,
                   decoration: InputDecoration(
                     labelStyle: TextStyle(
                       color: _firstNameFocusNode.hasFocus
@@ -210,7 +253,7 @@ class _StepperScreenState extends State<StepperScreen> {
                     }
                     return null;
                   },
-                  controller: lastName,
+                  controller: _lastName,
                   decoration: InputDecoration(
                     labelStyle: TextStyle(
                       color: _lastNameFocusNode.hasFocus
@@ -262,7 +305,7 @@ class _StepperScreenState extends State<StepperScreen> {
               child: Column(
                 children: [
                   TextFormField(
-                    controller: email,
+                    controller: _email,
                     decoration: InputDecoration(
                       labelStyle: TextStyle(
                         color: _emailFocusNode.hasFocus
@@ -309,7 +352,7 @@ class _StepperScreenState extends State<StepperScreen> {
                     child: CountryCodePicker(
                       onChanged: (country) {
                         setState(() {
-                          dialCodeDigits = country.dialCode!;
+                          _dialCodeDigits = country.dialCode!;
                         });
                       },
                       initialSelection: "US",
@@ -319,7 +362,7 @@ class _StepperScreenState extends State<StepperScreen> {
                     ),
                   ),
                   TextFormField(
-                    controller: phoneNumber,
+                    controller: _phoneNumber,
                     maxLength: 10,
                     inputFormatters: [
                       FilteringTextInputFormatter.allow(
@@ -338,7 +381,7 @@ class _StepperScreenState extends State<StepperScreen> {
                       prefix: Padding(
                         padding: const EdgeInsets.only(left: 4, right: 4),
                         child: Text(
-                          dialCodeDigits,
+                          _dialCodeDigits,
                           style: kInputTextStyle,
                         ),
                       ),
@@ -374,7 +417,7 @@ class _StepperScreenState extends State<StepperScreen> {
                     },
                     onFieldSubmitted: (_) {
                       //_formKeys[_activeCurrentStep].currentState!.validate();
-                      print('${phoneNumber.text}');
+                      print('${_phoneNumber.text}');
                     },
                   ),
                   const SizedBox(
@@ -435,13 +478,13 @@ class _StepperScreenState extends State<StepperScreen> {
         //       crossAxisAlignment: CrossAxisAlignment.stretch,
         //       mainAxisAlignment: MainAxisAlignment.start,
         //       children: [
-        //         Text('First Name: ${firstName.text}'),
-        //         Text('Last Name: ${lastName.text}'),
-        //         Text('Email : ${email.text}'),
-        //         Text('Phone Number : ${dialCodeDigits + phoneNumber.text}'),
+        //         Text('First Name: ${_firstName.text}'),
+        //         Text('Last Name: ${_lastName.text}'),
+        //         Text('Email : ${_email.text}'),
+        //         Text('Phone Number : ${_dialCodeDigits + _phoneNumber.text}'),
         //         Text('Checkbox : $isChecked'),
-        //         Text('Password : ${password.text}'),
-        //         Text('Password Confirm : ${password2.text}'),
+        //         Text('Password : ${_password.text}'),
+        //         Text('Password Confirm : ${_password2.text}'),
         //       ],
         //     ),
         //   )
@@ -473,20 +516,27 @@ class _StepperScreenState extends State<StepperScreen> {
 
                   //SMS Firebase validation
 
-                  print(dialCodeDigits);
-                  print(phoneNumber.text);
+                  print(_dialCodeDigits);
+                  print(_phoneNumber.text);
 
                   if (isChecked) {
                     //send data to the server
-                    accountRegistration();
-                    Timer(
-                        const Duration(seconds: 5),
-                        () => Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) =>
-                                OTPControllerRegistrationScreen(
-                                  phone: phoneNumber.text,
-                                  codeDigits: dialCodeDigits,
-                                ))));
+
+                    if (_formKeys[_activeCurrentStep]
+                            .currentState!
+                            .validate() &&
+                        isCompleted) {
+                      _submit();
+
+                      Timer(
+                          const Duration(seconds: 5),
+                          () => Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) =>
+                                  OTPControllerRegistrationScreen(
+                                    phone: _phoneNumber.text,
+                                    codeDigits: _dialCodeDigits,
+                                  ))));
+                    }
                   }
                 } else {
                   //increment
@@ -552,7 +602,9 @@ class _StepperScreenState extends State<StepperScreen> {
                           ),
                           RaisedButtonPG(
                             text: isLastStep ? 'Register Account' : 'Next',
-                            onPressedHandler: btnRegisterAccount ? null : details.onStepContinue,
+                            onPressedHandler: btnRegisterAccount
+                                ? null
+                                : details.onStepContinue,
                           ),
                         ],
                       ),
@@ -574,7 +626,7 @@ class _StepperScreenState extends State<StepperScreen> {
   }
 
   Widget buildPassword() => TextFormField(
-        controller: password,
+        controller: _password,
         decoration: InputDecoration(
           labelStyle: TextStyle(
             color: _passwordFocusNode.hasFocus
@@ -631,7 +683,7 @@ class _StepperScreenState extends State<StepperScreen> {
       );
 
   Widget buildPassword2() => TextFormField(
-        controller: password2,
+        controller: _password2,
         decoration: InputDecoration(
           labelStyle: TextStyle(
             color: _passwordFocusNode2.hasFocus
@@ -679,8 +731,8 @@ class _StepperScreenState extends State<StepperScreen> {
           if (inputPassword2.length < 8) {
             return 'Password must be at least 8 characters';
           }
-          if (password.text != inputPassword2.toString()) {
-            print('Password :${password.text}');
+          if (_password.text != inputPassword2) {
+            print('Password :${_password.text}');
             print('Password Confirm: $inputPassword2');
             return 'Password Confirm not equal Password';
           }
@@ -688,7 +740,7 @@ class _StepperScreenState extends State<StepperScreen> {
           return null;
         },
         onFieldSubmitted: (_) {
-          // _formKeys[_activeCurrentStep].currentState!.validate();
+          _formKeys[_activeCurrentStep].currentState!.validate();
         },
       );
 }

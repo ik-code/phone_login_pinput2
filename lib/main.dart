@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phone_login/raw/error_message.dart';
+import 'package:phone_login/screens/registration/stepper_screen.dart';
 import 'package:phone_login/screens/services_getways/sg_list_sreen.dart';
 import 'package:phone_login/screens/singin_singup_screen.dart';
 import 'package:phone_login/screens/auth_screen.dart';
@@ -10,6 +11,8 @@ import 'package:phone_login/screens/sms_verification/congrats_screen.dart';
 import 'package:phone_login/screens/sms_verification/reset_password_screen.dart';
 import 'package:phone_login/utilities/constans.dart';
 import 'package:provider/provider.dart';
+
+import '../providers/auth.dart';
 
 Future<void> main() async {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -31,38 +34,42 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<Data>(
       create: (context) => Data(),
-      child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            fontFamily: 'Manrope',
-            primarySwatch: Colors.grey,
-            unselectedWidgetColor: kGreyPg,
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider.value(
+          value: Auth(),
           ),
-          home: //const ErrorMessage()
-               const SingInSingUpScreen(),
-              // const SgListSreen(),
-          //---SMS Verification---
-          //const LoginScreen(),
-          // const ResetPasswordScreen(),
-          // const CongratsScreen(),
-          routes: {
-            'singin_to_account_screen': (context) =>
-                const AuthScreen(),
-            'reset_password_screen': (context) => const ResetPasswordScreen(),
-          }),
+        ],
+        child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+              fontFamily: 'Manrope',
+              primarySwatch: Colors.grey,
+              unselectedWidgetColor: kGreyPg,
+            ),
+            home: //const ErrorMessage()
+                 const SingInSingUpScreen(),
+                // const SgListSreen(),
+            //---SMS Verification---
+            //const LoginScreen(),
+            // const ResetPasswordScreen(),
+            // const CongratsScreen(),
+            routes: {
+              AuthScreen.routeName: (ctx) => const AuthScreen(),
+              StepperScreen.routeName: (ctx) => const StepperScreen(),
+              // 'singin_to_account_screen': (context) =>
+              //     const AuthScreen(),
+              'reset_password_screen': (context) => const ResetPasswordScreen(),
+            }),
+      ),
     );
   }
 }
