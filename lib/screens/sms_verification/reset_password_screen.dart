@@ -3,7 +3,7 @@ import 'package:phone_login/forms/confirm_pass_form.dart';
 import 'package:phone_login/utilities/constans.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
-  static const String id = 'reset_password_screen';
+  static const String routeName = '/reset_password';
 
   const ResetPasswordScreen({Key? key}) : super(key: key);
 

@@ -21,7 +21,6 @@ Future<void> main() async {
     statusBarBrightness: Brightness.light,
     systemNavigationBarColor: Colors.white,
     systemNavigationBarIconBrightness: Brightness.dark,
-  
   ));
 
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,7 +44,7 @@ class MyApp extends StatelessWidget {
       child: MultiProvider(
         providers: [
           ChangeNotifierProvider.value(
-          value: Auth(),
+            value: Auth(),
           ),
         ],
         child: MaterialApp(
@@ -56,8 +55,8 @@ class MyApp extends StatelessWidget {
               unselectedWidgetColor: kGreyPg,
             ),
             home: //const ErrorMessage()
-                 const SingInSingUpScreen(),
-                // const SgListSreen(),
+                //const SingInSingUpScreen(),
+             const SGListSreen(),
             //---SMS Verification---
             //const LoginScreen(),
             // const ResetPasswordScreen(),
@@ -67,7 +66,8 @@ class MyApp extends StatelessWidget {
               StepperScreen.routeName: (ctx) => const StepperScreen(),
               // 'singin_to_account_screen': (context) =>
               //     const AuthScreen(),
-              'reset_password_screen': (context) => const ResetPasswordScreen(),
+              ResetPasswordScreen.routeName: (ctx) =>
+                  const ResetPasswordScreen(),
             }),
       ),
     );
@@ -76,10 +76,14 @@ class MyApp extends StatelessWidget {
 
 class Data extends ChangeNotifier {
   Map data = {
-    'phone_number': '',
-    'token': '',
+    'first_name': '',
+    'last_name': '',
+    'avatar': 'https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png',
+    'email': '',
     'password': '',
     'password_confirmation': '',
+    'phone_number': '',
+    'api_personal_access_token': '',
   };
 
   void updateAccount(input) {

@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 import '../main.dart';
+import '../providers/auth.dart';
 
 class ConfirmPastForm extends StatefulWidget {
   const ConfirmPastForm({Key? key}) : super(key: key);
@@ -65,6 +66,9 @@ class _ConfirmPastFormState extends State<ConfirmPastForm> {
     print('Form was submitted');
     print('Password: ${_password}');
     print('Password: ${_password2}');
+
+    await Provider.of<Auth>(context, listen: false)
+        .resetPassword( _password, _password2);
 
     Provider.of<Data>(context, listen: false).data['password'] = _password;
     Provider.of<Data>(context, listen: false).data['password_confirmation'] =

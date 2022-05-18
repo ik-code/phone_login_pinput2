@@ -3,8 +3,8 @@ import 'package:phone_login/screens/menu_screen.dart';
 import 'package:phone_login/utilities/constans.dart';
 import 'package:phone_login/widgets/logo_pg.dart';
 
-class SgListSreen extends StatelessWidget {
-  const SgListSreen({Key? key}) : super(key: key);
+class SGListSreen extends StatelessWidget {
+  const SGListSreen({Key? key}) : super(key: key);
 
   @override
   @override

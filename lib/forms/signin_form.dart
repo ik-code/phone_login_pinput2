@@ -32,7 +32,7 @@ class _SigninFormState extends State<SigninForm> {
     "phone_number": '',
     "password": '',
     'password_confirmation': '',
-    'token': '',
+    'api_personal_access_token': '',
   };
 
   var _isLoading = false;
@@ -90,8 +90,35 @@ class _SigninFormState extends State<SigninForm> {
     print('Phone: ${_phone}');
     print('Password: ${_password}');
 
-    await Provider.of<Auth>(context, listen: false)
+    String res  = await Provider.of<Auth>(context, listen: false)
         .login((_dialCodeDigits.substring(1) + _phone), _password);
+
+
+              var apiToken = jsonDecode(res)['data']['api_personal_access_token'];
+      // ScaffoldMessenger.of(context)
+      //     .showSnackBar(const SnackBar(content: Text('You are logged in')));
+      print('apiToken: $apiToken');
+
+        _authData['token'] = apiToken;
+    
+      Provider.of<Data>(context, listen: false).updateAccount(_authData);
+
+
+      // data['token'] = apiToken;
+      // _formKey.currentState?.save();
+      // Provider.of<Data>(context, listen: false).updateAccount(data);
+      // _formKey.currentState?.reset();
+
+      // print('Central State Sing Form: ${data}');
+
+      // Timer(
+      //     const Duration(seconds: 5),
+      //     () => Navigator.of(context)
+      //         .push(MaterialPageRoute(builder: (context) => SgListSreen())));
+
+       // _authData['token'] = apiToken;
+    
+   // Provider.of<Data>(context, listen: false).updateAccount(_authData);
 
     //getData();
   }
@@ -222,12 +249,14 @@ class _SigninFormState extends State<SigninForm> {
                   ],
                 ),
                 const SizedBox(height: 30),
-                RaisedButtonPG(
-                  text: 'Sing in',
-                  onPressedHandler: () {
-                    _submit();
-                  },
-                ),
+                _isLoading
+                    ? const CircularProgressIndicator()
+                    : RaisedButtonPG(
+                        text: 'Sing in',
+                        onPressedHandler: () {
+                          _submit();
+                        },
+                      ),
               ],
             )
           ],
