@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phone_login/raw/error_message.dart';
 import 'package:phone_login/screens/registration/stepper_screen.dart';
-import 'package:phone_login/screens/services_getways/sg_list_sreen.dart';
+import 'package:phone_login/screens/services_getaways/sg_list_sreen.dart';
 import 'package:phone_login/screens/singin_singup_screen.dart';
 import 'package:phone_login/screens/auth_screen.dart';
 import 'package:phone_login/screens/sms_verification/login_screen.dart';
