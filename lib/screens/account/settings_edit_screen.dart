@@ -43,12 +43,11 @@ class _SettingsEditScreenState extends State<SettingsEditScreen> {
   };
 
   void logout() {
-    Provider.of<Data>(context, listen: false).data['password'] = null;
-    Provider.of<Data>(context, listen: false).data['password_confirmation'] =
-        null;
-    Provider.of<Data>(context, listen: false).data['phone_number'] = null;
+    Provider.of<Data>(context, listen: false).data['password'] = '';
+    Provider.of<Data>(context, listen: false).data['password_confirmation'] = '';
+    Provider.of<Data>(context, listen: false).data['phone_number'] = '';
     Provider.of<Data>(context, listen: false)
-        .data['api_personal_access_token'] = null;
+        .data['api_personal_access_token'] = '';
 
     print(
         'Central State after logout: ${Provider.of<Data>(context, listen: false).data}');
