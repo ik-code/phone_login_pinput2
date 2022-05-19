@@ -9,18 +9,18 @@ class Product with ChangeNotifier {
   final String price;
   final String fee;
   final double deposit;
-  final int pay_in_parts;
+  final int payInParts;
   final List<dynamic> images;
   final String description;
-  final String date_time;
-  final int duration_hours;
-  final int duration_minutes;
-  final String payment_type;
-  final int payment_parts_amount;
-  final String terms_and_conditions;
-  final int created_by_id;
-  final String created_at;
-  final String updated_at;
+  final String dateTime;
+  final int durationHours;
+  final int durationMinutes;
+  final String paymentType;
+  final int paymentPartsAmount;
+  final String termsAndConditions;
+  final int createdById;
+  final String createdAt;
+  final String updatedAt;
 
   Product(
       {
@@ -29,18 +29,18 @@ class Product with ChangeNotifier {
   required this.price,
   required this.fee,
   required this.deposit,
-  required this.pay_in_parts,
+  required this.payInParts,
   required this.images,
   required this.description,
-  required this.date_time,
-  required this.duration_hours,
-  required this.duration_minutes,
-  required this.payment_type,
-  required this.payment_parts_amount,
-  required this.terms_and_conditions,
-  required this.created_by_id,
-  required this.created_at,
-  required this.updated_at,
+  required this.dateTime,
+  required this.durationHours,
+  required this.durationMinutes,
+  required this.paymentType,
+  required this.paymentPartsAmount,
+  required this.termsAndConditions,
+  required this.createdById,
+  required this.createdAt,
+  required this.updatedAt,
       
       });
 

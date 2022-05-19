@@ -24,18 +24,14 @@ class GetawaysListScreen extends StatelessWidget {
       physics: const ScrollPhysics(),
       child: Column(
         children: [
-          const SizedBox(
-            height: 24,
-          ),
           const Text(
               'Welcome to Playground. Adults have more fun here! Book your ideal play date by choosing who will watch your children, getting your makeup done on demand, hiring a driver so you don’t need to worry about anything, book an experience or a yacht rental.',
-              style: kGetwasTextBlackStyle),
+              style: kGetawaysTextBlackStyle),
           const SizedBox(
             height: 24,
           ),
           //   Text(dataItem[0]["title"],)
           ListView.builder(
-            padding: const EdgeInsets.all(10.0),
             physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
             itemCount: dataItem.length,

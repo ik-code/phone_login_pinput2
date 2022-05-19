@@ -79,12 +79,46 @@ const kButtonTextOrangeStyle = TextStyle(
     fontWeight: FontWeight.w800,
     color: Color(0xFFFB8D1C));
 
-const kGetwasTextBlackStyle = TextStyle(
+////////////////////////////////////////////////////////////////////////////////
+///Getaways/////////////////////////////////////////////////////////////////////
+
+const kGetawaysTextBlackStyle = TextStyle(
     fontFamily: 'Manrope',
     height: 1.68,
     fontSize: 15,
     fontWeight: FontWeight.w400,
     color: Color(0xFF000000));
+
+const kGetawaysTitleBlackStyle = TextStyle(
+    fontFamily: 'Manrope',
+    height: 1,
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    color: Color(0xFF212121));
+const kGetawaysDateTimeStyle = TextStyle(
+    fontFamily: 'Manrope',
+    height: 1.68,
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: Color(0xFF999999));
+const kGetawaysDurationStyle = TextStyle(
+    fontFamily: 'Manrope',
+    height: 1.68,
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: Color(0xFF459297));
+const kGetawaysDescriptisonStyle = TextStyle(
+    fontFamily: 'Manrope',
+    height: 1.68,
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: Color(0xFF404040));
+const kGetawaysPriceStyle = TextStyle(
+    fontFamily: 'Manrope',
+    height: 1,
+    fontSize: 24,
+    fontWeight: FontWeight.w700,
+    color: Color(0xFF212121));
 
 ////////////////////////////////////////////////////////////////////////////////
 ///StepperPG////////////////////////////////////////////////////////////////////

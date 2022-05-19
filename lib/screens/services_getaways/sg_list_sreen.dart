@@ -130,7 +130,7 @@ final res = response.body;
                       child: ServicesCategoryListScreen(),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(right: 24.0, left: 24.0),
+                      padding: const EdgeInsets.only(right: 24.0, left: 24.0, top: 24.0),
                       child: GetawaysListScreen(
                         getawaysList: _responseDataGetways,
                       ),
