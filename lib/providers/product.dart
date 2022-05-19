@@ -21,6 +21,7 @@ class Product with ChangeNotifier {
   final int createdById;
   final String createdAt;
   final String updatedAt;
+  final String excerpt;
 
   Product(
       {
@@ -41,6 +42,7 @@ class Product with ChangeNotifier {
   required this.createdById,
   required this.createdAt,
   required this.updatedAt,
+  required this.excerpt,
       
       });
 

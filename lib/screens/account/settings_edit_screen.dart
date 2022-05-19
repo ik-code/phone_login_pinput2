@@ -1,9 +1,13 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:phone_login/screens/singin_singup_screen.dart';
 import 'package:phone_login/utilities/constans.dart';
 import 'package:phone_login/utilities/validation.dart';
 import 'package:phone_login/widgets/outlinebutton_pg.dart';
+import 'package:provider/provider.dart';
+
+import '../../main.dart';
 
 class SettingsEditScreen extends StatefulWidget {
   const SettingsEditScreen({Key? key}) : super(key: key);
@@ -37,6 +41,20 @@ class _SettingsEditScreenState extends State<SettingsEditScreen> {
     'password': '',
     'password_confirmation': '',
   };
+
+  void logout() {
+    Provider.of<Data>(context, listen: false).data['password'] = null;
+    Provider.of<Data>(context, listen: false).data['password_confirmation'] =
+        null;
+    Provider.of<Data>(context, listen: false).data['phone_number'] = null;
+    Provider.of<Data>(context, listen: false)
+        .data['api_personal_access_token'] = null;
+
+    print(
+        'Central State after logout: ${Provider.of<Data>(context, listen: false).data}');
+    Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => const SingInSingUpScreen()));
+  }
 
   @override
   void initState() {
@@ -170,16 +188,14 @@ class _SettingsEditScreenState extends State<SettingsEditScreen> {
         toolbarHeight: 80,
         title: Row(
           children: [
-            const SizedBox(
-              width: 4
-            ),
+            const SizedBox(width: 4),
             const Spacer(),
             IconButton(
               icon: const Icon(Icons.logout),
               iconSize: 40,
               color: const Color(0xFF212121),
               onPressed: () {
-                Navigator.pop(context);
+                logout();
               },
             ),
           ],
@@ -210,18 +226,18 @@ class _SettingsEditScreenState extends State<SettingsEditScreen> {
                   children: <Widget>[
                     Container(
                       width: 100,
-                      height:100,
+                      height: 100,
                       margin: const EdgeInsets.only(
                         top: 8,
                         right: 10,
                       ),
                       decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                        width: 1,
-                        color: Colors.grey,
-                      )),
-                      child:  false //_imageUrlController.text.isEmpty
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            width: 1,
+                            color: Colors.grey,
+                          )),
+                      child: false //_imageUrlController.text.isEmpty
                           ? const Text('Enter a URL')
                           : FittedBox(
                               child: Image.network(

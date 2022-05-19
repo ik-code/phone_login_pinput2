@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:phone_login/screens/auth_screen.dart';
 import 'package:phone_login/utilities/constans.dart';
 import 'package:phone_login/widgets/logo_pg.dart';
 import 'package:phone_login/widgets/raised_btn_pg.dart';
@@ -58,7 +59,7 @@ return Scaffold(
                       height: 10,
                     ),
                      Text(
-                      'Your account is ready to use',
+                      'Your Password is updated successfully',
                       style: kSubtitleBlackTextStyle,
                     ),
                      SizedBox(
@@ -68,9 +69,12 @@ return Scaffold(
                 ),
               )),
               RaisedButtonPG(
-                text: 'Go to Home Page',
+                text: 'Go to Sing in',
                 onPressedHandler: () {
-                  print('Go to Home Page');
+                  print('Go to Sing in');
+                   Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const AuthScreen()));
                 },
               ),
               const SizedBox(

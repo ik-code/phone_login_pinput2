@@ -95,14 +95,19 @@ class _SigninFormState extends State<SigninForm> {
 
 
               var apiToken = jsonDecode(res)['data']['api_personal_access_token'];
-      // ScaffoldMessenger.of(context)
-      //     .showSnackBar(const SnackBar(content: Text('You are logged in')));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('You are logged in')));
       print('apiToken: $apiToken');
 
-        _authData['token'] = apiToken;
+        _authData['api_personal_access_token'] = apiToken;
     
       Provider.of<Data>(context, listen: false).updateAccount(_authData);
 
+
+Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const SGListSreen()),
+        );
 
       // data['token'] = apiToken;
       // _formKey.currentState?.save();
@@ -211,7 +216,7 @@ class _SigninFormState extends State<SigninForm> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   FlatButton(
-                    child: const Text('Forgot the password?'),
+                    child: const Text('Change the password?'),
                     textColor: const Color(0xFF919191),
                     onPressed: () {
                       Navigator.push(

@@ -76,8 +76,8 @@ class Auth with ChangeNotifier {
     String res = response.body;
     print(res);
 
-    if (response.statusCode == 200 &&
-        jsonDecode(response.body)['data'] != null) {}
+    // if (response.statusCode == 200 &&
+    //     jsonDecode(response.body)['data'] != null) {}
     var statusCodeServer = response.statusCode;
     var resBody = jsonDecode(response.body);
     var message = resBody['message'];
@@ -100,7 +100,33 @@ class Auth with ChangeNotifier {
   }
 
   Future<void> resetPassword(
+    String phoneNumber,
     String password,
     String passwordConfirmation,
-  ) async {}
+    String apiToken,
+  ) async {
+    final url = Uri.parse(
+        //serverUrl + '/api/login?phone_number=$phoneNumber&password=$password');
+        serverUrl + '/api/forgot-password-set-password');
+    final response = await http.post(
+      url,
+      body: json.encode(
+        {
+          "phone_number": phoneNumber,
+          "password": password,
+          "password_confirmation": passwordConfirmation,
+        },
+      ),
+      headers: {
+        "Authorization": apiToken,
+      },
+    );
+    if (response.statusCode == 200) {
+      print('Server status: 200 :${response.body}');
+    }
+    if (response.statusCode >= 400) {
+    
+      print('Server status Error!!! :${response.body}');
+    }
+  }
 }//end class Auth

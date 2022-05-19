@@ -8,14 +8,15 @@ import '../../../utilities/constans.dart';
 import '../../../widgets/product_item.dart';
 
 class GetawaysListScreen extends StatelessWidget {
-  final getawaysList;
+  final  getawaysList;
+  
    const GetawaysListScreen({Key? key, required this.getawaysList})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     //final res = json.decode(response.body)["data"]["getaways"];
-    var dataItem = json.decode(getawaysList)["data"]["getaways"];
+    final  dataItem = json.decode(getawaysList)["data"]["getaways"];
 
     print('           dataItem: $dataItem');
 
@@ -42,17 +43,18 @@ class GetawaysListScreen extends StatelessWidget {
               dataItem[i]['fee'],
               dataItem[i]['deposit'],
               dataItem[i]['pay_in_parts'],
-              dataItem[i]['images'],
+              dataItem[i]['images'] ,
               dataItem[i]['description'],
               dataItem[i]['date_time'],
               dataItem[i]['duration_hours'],
               dataItem[i]['duration_minutes'],
-              dataItem[i]['payment_type'],
+              dataItem[i]['payment_type'].toString(),
               dataItem[i]['payment_parts_amount'],
               dataItem[i]['terms_and_conditions'],
               dataItem[i]['created_by_id'],
               dataItem[i]['created_at'],
               dataItem[i]['updated_at'],
+              dataItem[i]['excerpt'],
             ),
           )
         ],

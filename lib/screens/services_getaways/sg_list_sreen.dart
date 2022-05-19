@@ -8,6 +8,9 @@ import 'package:phone_login/screens/services_getaways/services/services_category
 import 'package:phone_login/utilities/constans.dart';
 import 'package:phone_login/widgets/logo_pg.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+
+import '../../main.dart';
 
 class SGListSreen extends StatefulWidget {
   const SGListSreen({Key? key}) : super(key: key);
@@ -24,14 +27,14 @@ class _SGListSreenState extends State<SGListSreen> {
 
   Future<void> _getDataGetways(url) async {
     final response = await http.get(url, headers: {
-      'Authorization':
-          'qlVuKcnbSINtcp2iqXSPb8fWR32QPb5cOcQoIlJgArQZtMERXzaE02IvOR5H'
+      'Authorization':   'Uk_9YrTcBzNrE8e4riECrNRikqWOtI9iyoljQ1GnCMtSzaRjV1wHWBh8OvZa'
+      //Provider.of<Data>(context, listen: false).data['api_personal_access_token']
     });
 
     //final res = json.decode(response.body)["data"]["getaways"];
-final res = response.body;
-  print('           res: ${res}');
-   //print('           res: ${res[0]["title"]}');
+    final res = response.body;
+    print('           res: ${res}');
+    //print('           res: ${res[0]["title"]}');
     setState(() {
       _responseDataGetways = res;
     });
@@ -41,11 +44,10 @@ final res = response.body;
 
   @override
   void initState() {
-   _getDataGetways(_url);
+    _getDataGetways(_url);
 
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +132,8 @@ final res = response.body;
                       child: ServicesCategoryListScreen(),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(right: 24.0, left: 24.0, top: 24.0),
+                      padding: const EdgeInsets.only(
+                          right: 24.0, left: 24.0, top: 24.0),
                       child: GetawaysListScreen(
                         getawaysList: _responseDataGetways,
                       ),

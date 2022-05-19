@@ -22,6 +22,7 @@ class ProductItem extends StatelessWidget {
   final int createdById;
   final String createdAt;
   final String updatedAt;
+  final String excerpt;
 
   const ProductItem(
       this.id,
@@ -41,6 +42,7 @@ class ProductItem extends StatelessWidget {
       this.createdById,
       this.createdAt,
       this.updatedAt,
+      this.excerpt,
       {Key? key})
       : super(key: key);
 
@@ -68,7 +70,11 @@ class ProductItem extends StatelessWidget {
             // ),
             ClipRRect(
               borderRadius: const BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),
-              child:Image.asset('images/getaways_demo.jpg'),
+              
+              child:Image.network(
+                images[0].toString(),
+                fit: BoxFit.cover,
+                width: double.infinity,),
             ),
 
             Padding(
@@ -114,7 +120,7 @@ class ProductItem extends StatelessWidget {
                     height: 8,
                   ),
                   Text(
-                    description,
+                    excerpt,
                     style: kGetawaysDescriptisonStyle,
                   ),
                   const SizedBox(
@@ -123,7 +129,7 @@ class ProductItem extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        '\$ ' + price.toString(),
+                        '\$ ' + price.toStringAsFixed(2),
                         style: kGetawaysPriceStyle,
                       ),
                     ],
@@ -139,6 +145,7 @@ class ProductItem extends StatelessWidget {
             // Text(fee),
             // Text(deposit.toString()),
             // Text(payInParts.toString()),
+            //Text(description),
 
             // Text(paymentType),
             // Text(paymentPartsAmount.toString()),

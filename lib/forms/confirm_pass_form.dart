@@ -67,8 +67,15 @@ class _ConfirmPastFormState extends State<ConfirmPastForm> {
     print('Password: ${_password}');
     print('Password: ${_password2}');
 
+    
+
     await Provider.of<Auth>(context, listen: false)
-        .resetPassword( _password, _password2);
+        .resetPassword( 
+          Provider.of<Data>(context, listen: false).data['phone_number'],
+          _password, 
+          _password2,
+          Provider.of<Data>(context, listen: false).data['api_personal_access_token']
+          );
 
     Provider.of<Data>(context, listen: false).data['password'] = _password;
     Provider.of<Data>(context, listen: false).data['password_confirmation'] =
@@ -77,38 +84,48 @@ class _ConfirmPastFormState extends State<ConfirmPastForm> {
         'comfirm_pass_format Central State: ${Provider.of<Data>(context, listen: false).data}');
     print(
         "Authorization: ${Provider.of<Data>(context, listen: false).data['token'].toString()}");
-    getData();
-  }
 
-  void getData() async {
-    ApiConnection apiConnection = ApiConnection();
-    var data = {};
-    data = Provider.of<Data>(context, listen: false).data;
-    http.Response response =
-        await http.post(apiConnection.forgotPasswordSetPassword(),
-            headers: {
-              "Authorization": Provider.of<Data>(context, listen: false)
-                  .data['token']
-                  .toString()
-            },
-            body: data);
-
-    if (response.statusCode == 200 &&
-        jsonDecode(response.body)['message'] != null) {
-      String data = response.body;
-      print(data);
-      String msg = response.body;
-      var str = jsonDecode(msg)['message'];
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(str)));
-      print(str);
-      if (str == 'Password was updated' && (jsonDecode(msg)['status'] == 1)) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const CongratsScreen()),
-        );
-      }
-    }
+          MaterialPageRoute(builder: (context) => const CongratsScreen()));
+
+        
+    //getData();
   }
+
+  // void getData() async {
+  //   ApiConnection apiConnection = ApiConnection();
+  //   var data = {};
+  //   data = Provider.of<Data>(context, listen: false).data;
+  //   http.Response response =
+  //       await http.post(apiConnection.forgotPasswordSetPassword(),
+  //           headers: {
+  //             "Authorization": Provider.of<Data>(context, listen: false)
+  //                 .data['token']
+  //                 .toString()
+  //           },
+  //           body: data);
+
+  //   if (response.statusCode == 200 &&
+  //       jsonDecode(response.body)['message'] != null) {
+  //     String data = response.body;
+  //     print(data);
+  //     String msg = response.body;
+  //     var str = jsonDecode(msg)['message'];
+  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(str)));
+  //     print(str);
+  //     if (str == 'Password was updated' && (jsonDecode(msg)['status'] == 1)) {
+  //       Navigator.push(
+  //         context,
+  //         MaterialPageRoute(builder: (context) => const CongratsScreen()),
+  //       );
+  //     }
+  //   }
+  //   if (response.statusCode >= 400) {
+  //     print('Error!');
+  //     print(response.body);
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {

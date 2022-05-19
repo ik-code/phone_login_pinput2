@@ -55,8 +55,8 @@ class MyApp extends StatelessWidget {
               unselectedWidgetColor: kGreyPg,
             ),
             home: //const ErrorMessage()
-                //const SingInSingUpScreen(),
-             const SGListSreen(),
+                const SingInSingUpScreen(),
+             // const SGListSreen(),
             //---SMS Verification---
             //const LoginScreen(),
             // const ResetPasswordScreen(),

@@ -5,6 +5,9 @@ import 'package:flutter/services.dart';
 import 'package:phone_login/screens/sms_verification/otp_controller_screen.dart';
 import 'package:phone_login/utilities/constans.dart';
 import 'package:phone_login/widgets/raised_btn_pg.dart';
+import 'package:provider/provider.dart';
+
+import '../../main.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -55,102 +58,106 @@ class _LoginScreenState extends State<LoginScreen> {
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
-      body:
-          SafeArea(
-            child: Column(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
-                  Row(
-            children: const <Widget>[
-              SizedBox(
-                width: 24,
-              ),
-              Text(
-                'Forgot Password',
-                style: kBigtitleTextStyle,
-              ),
-              SizedBox(height: 80.0),
-            ],
-                  ),
-                  Container(
-            margin: const EdgeInsets.only(top: 50),
-            child: const Center(
-              child: Text(
-                "Enters valid Phone number to get SMS",
-                style: kSubtitleOrangeTextStyle,
-              ),
-            ),
-                  ),
+      body: SafeArea(
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Row(
+                children: const <Widget>[
                   SizedBox(
-            width: 400,
-            height: 48,
-            child: CountryCodePicker(
-              onChanged: (country) {
-                setState(() {
-                  _dialCodeDigits = country.dialCode!;
-                });
-              },
-              initialSelection: "US",
-              showCountryOnly: false,
-              showOnlyCountryWhenClosed: false,
-              favorite: const ["+1", "US", "+44", "UK" "+380", "UA"],
-            ),
+                    width: 24,
                   ),
-                  Container(
-            margin: const EdgeInsets.only(top: 8, right: 24, left: 24),
-            child: TextFormField(
-              style: kInputTextStyle,
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(
-                  RegExp(r"[0-9]"),
-                )
-              ],
-              decoration: InputDecoration(
-                labelText: 'Phone *',
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                  borderSide: const BorderSide(
-                    color: Color(0xFFFB8D1C),
-                    width: 2.0,
+                  Text(
+                    'Forgot Password',
+                    style: kBigtitleTextStyle,
                   ),
-                ),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                    borderSide: const BorderSide(
-                      color: Color(0xFFFB8D1C),
-                    )),
-                suffixIcon: Image.asset('images/phone.png'),
-                hintText: "Phone",
-                prefix: Padding(
-                  padding: const EdgeInsets.only(left: 4, right: 4),
+                  SizedBox(height: 80.0),
+                ],
+              ),
+              Container(
+                margin: const EdgeInsets.only(top: 50),
+                child: const Center(
                   child: Text(
-                    _dialCodeDigits,
-                    style: kInputTextStyle,
+                    "Enters valid Phone number to get SMS",
+                    style: kSubtitleOrangeTextStyle,
                   ),
                 ),
               ),
-              maxLength: 10,
-              focusNode: _phoneFocusNode,
-              keyboardType: TextInputType.phone,
-              controller: _controller,
-            ),
+              SizedBox(
+                width: 400,
+                height: 48,
+                child: CountryCodePicker(
+                  onChanged: (country) {
+                    setState(() {
+                      _dialCodeDigits = country.dialCode!;
+                    });
+                  },
+                  initialSelection: "US",
+                  showCountryOnly: false,
+                  showOnlyCountryWhenClosed: false,
+                  favorite: const ["+1", "US", "+44", "UK" "+380", "UA"],
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(top: 8, right: 24, left: 24),
+                child: TextFormField(
+                  style: kInputTextStyle,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(
+                      RegExp(r"[0-9]"),
+                    )
+                  ],
+                  decoration: InputDecoration(
+                    labelText: 'Phone *',
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                      borderSide: const BorderSide(
+                        color: Color(0xFFFB8D1C),
+                        width: 2.0,
+                      ),
+                    ),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                        borderSide: const BorderSide(
+                          color: Color(0xFFFB8D1C),
+                        )),
+                    suffixIcon: Image.asset('images/phone.png'),
+                    hintText: "Phone",
+                    prefix: Padding(
+                      padding: const EdgeInsets.only(left: 4, right: 4),
+                      child: Text(
+                        _dialCodeDigits,
+                        style: kInputTextStyle,
+                      ),
+                    ),
                   ),
-                  const Spacer(),
-                  Padding(
-            padding:
-                const EdgeInsets.only(top: 8, right: 24, left: 24, bottom: 24),
-            child: RaisedButtonPG(
-                text: 'Send SMS Code',
-                onPressedHandler: () {
-                  print(_dialCodeDigits);
-                  print(_controller.text);
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => OTPControllerScreen(
-                            phone: _controller.text,
-                            codeDigits: _dialCodeDigits,
-                          )));
-                }),
-                  ),
-                ]),
-          ),
+                  maxLength: 10,
+                  focusNode: _phoneFocusNode,
+                  keyboardType: TextInputType.phone,
+                  controller: _controller,
+                ),
+              ),
+              const Spacer(),
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 8, right: 24, left: 24, bottom: 24),
+                child: RaisedButtonPG(
+                    text: 'Send SMS Code',
+                    onPressedHandler: () {
+                      print(_dialCodeDigits);
+                      print(_controller.text);
+                      Provider.of<Data>(context, listen: false)
+                              .data['phone_number'] =
+                          (_dialCodeDigits.substring(1) + _controller.text);
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => OTPControllerScreen(
+                                phone: _controller.text,
+                                codeDigits: _dialCodeDigits,
+                              )));
+                    }),
+              ),
+            ]),
+      ),
     );
   }
 }
