@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:phone_login/screens/account/settings_edit_screen.dart';
 import 'package:phone_login/utilities/constans.dart';
 
-
 class MenuScreen extends StatelessWidget {
   const MenuScreen({Key? key}) : super(key: key);
 
@@ -80,12 +79,11 @@ class MenuScreen extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () {
-                                  Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                const SettingsEditScreen()),
-                      );
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const SettingsEditScreen()),
+            );
           },
           child: Padding(
             padding: const EdgeInsets.only(right: 24.0, left: 24.0),

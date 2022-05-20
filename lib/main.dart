@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phone_login/raw/error_message.dart';
 import 'package:phone_login/screens/registration/stepper_screen.dart';
 import 'package:phone_login/screens/services_getaways/sg_list_sreen.dart';
 import 'package:phone_login/screens/singin_singup_screen.dart';
@@ -54,8 +53,7 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.grey,
               unselectedWidgetColor: kGreyPg,
             ),
-            home: //const ErrorMessage()
-                const SingInSingUpScreen(),
+            home: const SingInSingUpScreen(),
              // const SGListSreen(),
             //---SMS Verification---
             //const LoginScreen(),

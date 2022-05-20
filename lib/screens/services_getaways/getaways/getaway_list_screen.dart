@@ -3,19 +3,17 @@ import '../../../utilities/constans.dart';
 import '../../../widgets/getaway_item.dart';
 
 class GetawayListScreen extends StatelessWidget {
-  final  getawaysList;
-  
-   const GetawayListScreen({Key? key, required this.getawaysList})
+  final getawaysList;
+
+  const GetawayListScreen({Key? key, required this.getawaysList})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    //final res = json.decode(response.body)["data"]["getaways"];
-    final  dataItem = getawaysList["data"]["getaways"];
+    final dataItem = getawaysList["data"]["getaways"];
 
     print('           dataItem: $dataItem');
 
-    
     return SingleChildScrollView(
       physics: const ScrollPhysics(),
       child: Column(
@@ -26,10 +24,9 @@ class GetawayListScreen extends StatelessWidget {
           const SizedBox(
             height: 24,
           ),
-          //   Text(dataItem[0]["title"],)
           ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
+            shrinkWrap: true,
             itemCount: dataItem.length,
             itemBuilder: (ctx, i) => GetawayItem(
               dataItem[i]['id'],
@@ -38,7 +35,7 @@ class GetawayListScreen extends StatelessWidget {
               dataItem[i]['fee'],
               dataItem[i]['deposit'],
               dataItem[i]['pay_in_parts'],
-              dataItem[i]['images'] ,
+              dataItem[i]['images'],
               dataItem[i]['description'],
               dataItem[i]['date_time'],
               dataItem[i]['duration_hours'],

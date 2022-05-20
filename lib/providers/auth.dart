@@ -2,9 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
-
-import '../main.dart';
 
 class Auth with ChangeNotifier {
   final String serverUrl = 'https://lav.playground.wdscode.guru';
@@ -17,9 +14,7 @@ class Auth with ChangeNotifier {
     String password,
     String passwordConfirm,
   ) async {
-    final url = Uri.parse(serverUrl +
-        // '/api/registration?first_name=$firstName&last_name=$lastName&email=$email&password=$password&password_confirmation=$passwordConfirm&phone_number=$phoneNumber');
-        '/api/registration');
+    final url = Uri.parse(serverUrl + '/api/registration');
     final response = await http.post(
       url,
       body: json.encode(
@@ -46,13 +41,6 @@ class Auth with ChangeNotifier {
       var message = jsonDecode(resBody)['message'];
       print(message);
 
-      // var message0 = jsonDecode(resBody)['message'][0];
-      // ScaffoldMessenger.of(context)
-      //     .showSnackBar(SnackBar(content: Text(message)));
-      // print(resBody);
-
-      //disable btn 'Register Account'
-      //btnRegisterAccount = true;
     } else if (statusCodeServer >= 400) {
       print('Error!');
       print('statusCodeServer: $statusCodeServer');
@@ -68,10 +56,8 @@ class Auth with ChangeNotifier {
     String phoneNumber,
     String password,
   ) async {
-    //return _authenticate(email, password, 'signInWithPassword');
-    final url = Uri.parse(
-        //serverUrl + '/api/login?phone_number=$phoneNumber&password=$password');
-        serverUrl + '/api/login');
+   
+    final url = Uri.parse(serverUrl + '/api/login');
     final response = await http.post(
       url,
       body: json.encode(
@@ -85,8 +71,6 @@ class Auth with ChangeNotifier {
     String res = response.body;
     print(res);
 
-    // if (response.statusCode == 200 &&
-    //     jsonDecode(response.body)['data'] != null) {}
     var statusCodeServer = response.statusCode;
     var resBody = jsonDecode(response.body);
     var message = resBody['message'];
@@ -95,8 +79,7 @@ class Auth with ChangeNotifier {
         resBody['status'] == 1) {
       print('statusCodeServer: $statusCodeServer');
       print('MessageApiLara: $message');
-      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(err)));
-
+ 
     } else if (statusCodeServer >= 400) {
       print('Error!');
       print('statusCodeServer: $statusCodeServer');
@@ -114,9 +97,7 @@ class Auth with ChangeNotifier {
     String passwordConfirmation,
     String apiToken,
   ) async {
-    final url = Uri.parse(
-        //serverUrl + '/api/login?phone_number=$phoneNumber&password=$password');
-        serverUrl + '/api/forgot-password-set-password');
+    final url = Uri.parse(serverUrl + '/api/forgot-password-set-password');
     final response = await http.post(
       url,
       body: json.encode(

@@ -48,30 +48,22 @@ class _ConfirmPastFormState extends State<ConfirmPastForm> {
       return;
     }
     print('Form was submitted');
-    print('Password: ${_password}');
-    print('Password: ${_password2}');
+    print('Password: $_password');
+    print('Password: $_password2');
 
-    
-    await Provider.of<Auth>(context, listen: false)
-        .resetPassword( 
-          Provider.of<Data>(context, listen: false).data['phone_number'],
-          _password, 
-          _password2,
-          Provider.of<Data>(context, listen: false).data['api_personal_access_token']
-          );
+    await Provider.of<Auth>(context, listen: false).resetPassword(
+        Provider.of<Data>(context, listen: false).data['phone_number'],
+        _password,
+        _password2,
+        Provider.of<Data>(context, listen: false)
+            .data['api_personal_access_token']);
 
     Provider.of<Data>(context, listen: false).data['password'] = _password;
     Provider.of<Data>(context, listen: false).data['password_confirmation'] =
         _password2;
-    print(
-        'comfirm_pass_format Central State: ${Provider.of<Data>(context, listen: false).data}');
-    print(
-        "Authorization: ${Provider.of<Data>(context, listen: false).data['token'].toString()}");
 
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const CongratsScreen()));
-
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const CongratsScreen()));
   }
 
   @override
@@ -105,8 +97,6 @@ class _ConfirmPastFormState extends State<ConfirmPastForm> {
                   text: 'Save',
                   onPressedHandler: () {
                     if (_formKey.currentState!.validate()) {
-                      // If the form is valid, display a snackbar. In the real world,
-                      // you'd often call a server or save the information in a database.
                       print(_password);
                       print(_password2);
                       if (_password.isEmpty || _password2.isEmpty) {

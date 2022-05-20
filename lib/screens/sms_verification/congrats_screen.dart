@@ -5,7 +5,7 @@ import 'package:phone_login/widgets/logo_pg.dart';
 import 'package:phone_login/widgets/raised_btn_pg.dart';
 
 class CongratsScreen extends StatefulWidget {
-  const CongratsScreen({ Key? key }) : super(key: key);
+  const CongratsScreen({Key? key}) : super(key: key);
 
   @override
   _CongratsScreenState createState() => _CongratsScreenState();
@@ -14,25 +14,7 @@ class CongratsScreen extends StatefulWidget {
 class _CongratsScreenState extends State<CongratsScreen> {
   @override
   Widget build(BuildContext context) {
-    // return Scaffold(
-    //   appBar: AppBar(
-    //     centerTitle: true,
-    //     title: const Text(
-    //       'Congrats Screen',
-    //       style: TextStyle(
-    //         color: Colors.white,
-    //       ),
-    //     ),
-    //   ),
-    //   body: Column(
-    //     mainAxisAlignment: MainAxisAlignment.center,
-    //     children: <Widget>[
-    //       Image.asset("images/logo_orange_final_screen.jpg")
-    //     ],
-    //   ),
-    // );
-
-return Scaffold(
+    return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
@@ -44,7 +26,7 @@ return Scaffold(
                   child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children:  const <Widget>[
+                  children: const <Widget>[
                     LogoPG(
                       imgFile: 'logo_orange_final_screen.png',
                     ),
@@ -58,11 +40,11 @@ return Scaffold(
                     SizedBox(
                       height: 10,
                     ),
-                     Text(
+                    Text(
                       'Your Password is updated successfully',
                       style: kSubtitleBlackTextStyle,
                     ),
-                     SizedBox(
+                    SizedBox(
                       height: 100,
                     ),
                   ],
@@ -72,9 +54,10 @@ return Scaffold(
                 text: 'Go to Sing in',
                 onPressedHandler: () {
                   print('Go to Sing in');
-                   Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const AuthScreen()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AuthScreen()));
                 },
               ),
               const SizedBox(

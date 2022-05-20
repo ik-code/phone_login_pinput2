@@ -21,8 +21,8 @@ class SGListSreen extends StatefulWidget {
 class _SGListSreenState extends State<SGListSreen> {
   final Uri _urlGetways =
       Uri.parse('https://lav.playground.wdscode.guru/api/getaways-list');
-      final Uri _urlServicesCatList =
-      Uri.parse('https://lav.playground.wdscode.guru/api/service-categories-list');
+  final Uri _urlServicesCatList = Uri.parse(
+      'https://lav.playground.wdscode.guru/api/service-categories-list');
 
   dynamic _responseDataGetways;
   dynamic _responseDataServicesCatList;
@@ -64,8 +64,6 @@ class _SGListSreenState extends State<SGListSreen> {
           Provider.of<Data>(context, listen: false)
               .data['api_personal_access_token']
     });
-    
-
 
     final resBody = jsonDecode(response.body);
 
@@ -80,8 +78,6 @@ class _SGListSreenState extends State<SGListSreen> {
       });
       print('           res: ${resBody}');
     }
-
-    // print('          _responseDataGetways:         $_responseDataS');
   }
 
   @override
@@ -99,18 +95,6 @@ class _SGListSreenState extends State<SGListSreen> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.0,
-        // leading:
-        // IconButton(
-        //   icon: IconButton(
-        //     icon: const Icon(Icons.menu),
-        //     iconSize: 30,
-        //     color: const Color(0xFF212121),
-        //     onPressed: () {
-        //       Navigator.pop(context);
-        //     },
-        //   ),
-        //   onPressed: () => Navigator.of(context).pop(),
-        // ),
         toolbarHeight: 80,
         title: Row(
           children: [
@@ -174,7 +158,8 @@ class _SGListSreenState extends State<SGListSreen> {
                     Padding(
                       padding: const EdgeInsets.only(
                           right: 24.0, left: 24.0, top: 24.0),
-                      child: (_isLoadingGetaways || _responseDataServicesCatList == null ) 
+                      child: (_isLoadingGetaways ||
+                              _responseDataServicesCatList == null)
                           ? Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: const [
@@ -187,7 +172,8 @@ class _SGListSreenState extends State<SGListSreen> {
                     Padding(
                       padding: const EdgeInsets.only(
                           right: 24.0, left: 24.0, top: 24.0),
-                      child: _isLoadingGetaways
+                      child: (_isLoadingGetaways ||
+                              _responseDataGetways == null) 
                           ? Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: const [

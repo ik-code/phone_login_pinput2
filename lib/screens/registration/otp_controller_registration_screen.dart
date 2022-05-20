@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:phone_login/screens/auth_screen.dart';
-import 'package:phone_login/screens/sms_verification/congrats_screen.dart';
-import 'package:phone_login/screens/sms_verification/reset_password_screen.dart';
 import 'package:phone_login/utilities/constans.dart';
 import 'package:phone_login/widgets/logo_pg.dart';
 import 'package:pinput/pinput.dart';
@@ -16,10 +14,12 @@ class OTPControllerRegistrationScreen extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<OTPControllerRegistrationScreen> createState() => _OTPControllerRegistrationScreenState();
+  State<OTPControllerRegistrationScreen> createState() =>
+      _OTPControllerRegistrationScreenState();
 }
 
-class _OTPControllerRegistrationScreenState extends State<OTPControllerRegistrationScreen> {
+class _OTPControllerRegistrationScreenState
+    extends State<OTPControllerRegistrationScreen> {
   final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
   final TextEditingController _pinOTPCodeController = TextEditingController();
   final FocusNode _pinOTPCodeFocus = FocusNode();
@@ -56,8 +56,8 @@ class _OTPControllerRegistrationScreenState extends State<OTPControllerRegistrat
               .signInWithCredential(credential)
               .then((value) {
             if (value.user != null) {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const AuthScreen()));
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const AuthScreen()));
             }
           });
         },
@@ -87,23 +87,21 @@ class _OTPControllerRegistrationScreenState extends State<OTPControllerRegistrat
     return Scaffold(
       key: _scaffoldkey,
       backgroundColor: Colors.white,
-     
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Column(
               children: [
-                 const LogoPG(
-                imgFile: 'playground_logo_orange.png',
-              ),
-              const SizedBox(
-                height: 40,
-              ),
+                const LogoPG(
+                  imgFile: 'playground_logo_orange.png',
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const <Widget>[
-                    
                     Text(
                       'SMS Phone Verification',
                       style: kBigtitleTextStyle,
@@ -159,6 +157,11 @@ class _OTPControllerRegistrationScreenState extends State<OTPControllerRegistrat
                       if (value.user != null) {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => const AuthScreen()));
+                           ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Congrats! Your Account is registered'),
+                        duration: Duration(seconds: 3),
+                      ));
                       }
                     });
                   } catch (e) {

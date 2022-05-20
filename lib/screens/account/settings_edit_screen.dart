@@ -44,7 +44,8 @@ class _SettingsEditScreenState extends State<SettingsEditScreen> {
 
   void logout() {
     Provider.of<Data>(context, listen: false).data['password'] = '';
-    Provider.of<Data>(context, listen: false).data['password_confirmation'] = '';
+    Provider.of<Data>(context, listen: false).data['password_confirmation'] =
+        '';
     Provider.of<Data>(context, listen: false).data['phone_number'] = '';
     Provider.of<Data>(context, listen: false)
         .data['api_personal_access_token'] = '';
@@ -109,51 +110,7 @@ class _SettingsEditScreenState extends State<SettingsEditScreen> {
 
     print('Phone: ${_phone}');
     print('Password: ${_password}');
-
-    //getData();
   }
-
-  // void getData() async {
-  //   ApiConnection apiConnection = ApiConnection(
-  //       phoneNumber: (dialCodeDigits + _phone), password: _password);
-
-  //   http.Response response =
-  //       await http.post(apiConnection.logInPostEndPoint(), body: {
-  //     "phone_number": data['phone_number'],
-  //     "password": data['password'],
-  //   });
-
-  //   if (response.statusCode == 200 &&
-  //       jsonDecode(response.body)['data'] != null) {
-  //     String res = response.body;
-  //     print(res);
-  //     var apiToken = jsonDecode(res)['data']['api_personal_access_token'];
-  //     ScaffoldMessenger.of(context)
-  //         .showSnackBar(const SnackBar(content: Text('You are logged in')));
-  //     print(apiToken);
-
-  //     data['token'] = apiToken;
-  //     _formKey.currentState?.save();
-  //     Provider.of<Data>(context, listen: false).updateAccount(data);
-  //     _formKey.currentState?.reset();
-
-  //     print('Central State Sing Form: ${data}');
-
-  //     Timer(
-  //         const Duration(seconds: 5),
-  //         () => Navigator.of(context)
-  //             .push(MaterialPageRoute(builder: (context) => SgListSreen())));
-  //   }
-
-  //   if (response.statusCode == 200 &&
-  //       (jsonDecode(response.body)['message'] != null)) {
-  //     print(response.statusCode);
-  //     String msg = response.body;
-  //     var err = jsonDecode(msg)['message'];
-  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(err)));
-  //     print(msg);
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -236,51 +193,13 @@ class _SettingsEditScreenState extends State<SettingsEditScreen> {
                             width: 1,
                             color: Colors.grey,
                           )),
-                      child: false //_imageUrlController.text.isEmpty
-                          ? const Text('Enter a URL')
-                          : FittedBox(
-                              child: Image.network(
-                              //_imageUrlController.text,
-                              'https://www.shareicon.net/data/128x128/2017/06/21/887379_face_512x512.png',
-                              fit: BoxFit.cover,
-                            )),
+                      child: FittedBox(
+                          child: Image.network(
+                        //_imageUrlController.text,
+                        'https://www.shareicon.net/data/128x128/2017/06/21/887379_face_512x512.png',
+                        fit: BoxFit.cover,
+                      )),
                     ),
-                    // Expanded(
-                    //   child: TextFormField(
-                    //     decoration: const InputDecoration(
-                    //       labelText: 'Image URL',
-                    //     ),
-                    //     keyboardType: TextInputType.url,
-                    //     textInputAction: TextInputAction.done,
-                    //     controller: _imageUrlController,
-                    //     // focusNode: _imageUrlFocusNode,
-                    //     onFieldSubmitted: (_) => {_saveForm()},
-                    //     validator: (value) {
-                    //       if (value!.isEmpty) {
-                    //         return 'Please enter an image URL.';
-                    //       }
-                    //       if (!value.startsWith('http') &&
-                    //           !value.startsWith('https')) {
-                    //         return 'Please enter a valid URL.';
-                    //       }
-                    //       if (!value.endsWith('.png') &&
-                    //           !value.endsWith('.jpg') &&
-                    //           !value.endsWith('.jpeg')) {
-                    //         return 'Please enter a valid image URL.';
-                    //       }
-                    //       return null;
-                    //     },
-                    //     onSaved: (value) {
-                    //       // _editedProduct = Product(
-                    //       //     title: _editedProduct.title,
-                    //       //     price: _editedProduct.price,
-                    //       //     imageUrl: value.toString(),
-                    //       //     description: _editedProduct.description,
-                    //       //     id: _editedProduct.id,
-                    //       //     isFavorite: _editedProduct.isFavorite);
-                    //     },
-                    //   ),
-                    // ),
                   ],
                 ),
                 const SizedBox(

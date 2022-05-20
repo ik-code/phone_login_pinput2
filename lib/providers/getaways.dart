@@ -28,56 +28,17 @@ class GetawaysProvider with ChangeNotifier {
 
 // .....Oter Items
 
-  ]; //pointer to the memory
+  ]; 
 
-  // var _showFavoritesOnly = false;
 
   List<Getaway> get items {
-    // if (_showFavoritesOnly) {
-    //   return _items.where((prodItem) => prodItem.isFavorite).toList();
-    // }
+
     return [..._items];
   }
 
-  // List<Getaway> get favorieItems {
-  //   return _items.where((prodItem) => prodItem.isFavorite).toList();
-  // }
 
   Getaway findById(String id) {
     return _items.firstWhere((prod) => prod.id == id);
   }
 
-  // void showFavoritesOnly() {
-  //   _showFavoritesOnly = true;
-  //   notifyListeners();
-  // }
-
-  // void showAll() {
-  //   _showFavoritesOnly = false;
-  //   notifyListeners();
-  // }
-
-  // Future<void> fetchAndSetGetaways() async {
-  //   final url = Uri.parse(
-  //       'https://flutter-shop-db-realtime-default-rtdb.firebaseio.com/Getaways.json');
-  //   try {
-  //     final response = await http.get(url);
-
-  //     final extractedData = json.decode(response.body) as Map<String, dynamic>;
-  //     final List<Getaway> loadedGetaways = [];
-  //     extractedData.forEach((prodId, prodData) {
-  //       loadedGetaways.add(Getaway(
-  //           id: prodId,
-  //           title: prodData['title'],
-  //           description: prodData['description'],
-  //           price: prodData['price'],
-  //           imageUrl: prodData['imageUrl'],
-  //           isFavorite: prodData['isFavorite']));
-  //     });
-  //     _items = loadedGetaways;
-  //     notifyListeners();
-  //   } catch (error) {
-  //     rethrow;
-  //   }
-  // }
 }

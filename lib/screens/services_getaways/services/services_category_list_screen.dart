@@ -9,7 +9,6 @@ class ServicesCategoryListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     final dataItem = servicesCatList["data"]["services_categories"];
 
     print('           dataItem: $dataItem');
@@ -52,23 +51,3 @@ class ServicesCategoryListScreen extends StatelessWidget {
     );
   }
 }
-
-    // GridView.builder(
-    //   padding: const EdgeInsets.all(10.0),
-    //   itemCount: products.length,
-    //   itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
-    //     // create: (BuildContext context) => products[i],
-    //     value: products[i],
-    //     child: ProductItem(
-    //         // products[i].id,
-    //         // products[i].title,
-    //         // products[i].imageUrl,
-    //         ),
-    //   ),
-    //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-    //     crossAxisCount: 2,
-    //     childAspectRatio: 3 / 2,
-    //     crossAxisSpacing: 10,
-    //     mainAxisSpacing: 10,
-    //   ),
-    // );

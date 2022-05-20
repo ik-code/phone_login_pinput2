@@ -54,7 +54,7 @@ class ResetPasswordScreen extends StatelessWidget {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.only(right:24.0, left: 24.0),
+              padding: const EdgeInsets.only(right: 24.0, left: 24.0),
               child: Container(
                 alignment: Alignment.centerLeft,
                 margin: const EdgeInsets.only(top: 50),

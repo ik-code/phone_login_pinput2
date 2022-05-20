@@ -27,7 +27,6 @@ class StepperScreen extends StatefulWidget {
 }
 
 class _StepperScreenState extends State<StepperScreen> {
-  // final GlobalKey<FormState> _formKey = GlobalKey();
   final AuthMode _authMode = AuthMode.Signup;
   final Map<String, String> _authData = {
     "first_name": '',
@@ -49,21 +48,9 @@ class _StepperScreenState extends State<StepperScreen> {
   final _password = TextEditingController();
   final _password2 = TextEditingController();
 
-////////////////////////////////////////////////////////
-
   int _activeCurrentStep = 0;
   bool isCompleted = false;
   bool isChecked = false;
-
-  // TextEditingController firstName = TextEditingController();
-  // TextEditingController lastName = TextEditingController();
-
-  // TextEditingController email = TextEditingController();
-  // TextEditingController phoneNumber = TextEditingController();
-  // TextEditingController checkbox = TextEditingController();
-
-  // TextEditingController password = TextEditingController();
-  // TextEditingController password2 = TextEditingController();
 
   String _dialCodeDigits = "+00";
 
@@ -88,18 +75,10 @@ class _StepperScreenState extends State<StepperScreen> {
   ];
 
   Future<void> _submit() async {
-    // if (_formKeys[_activeCurrentStep]!.validate()) {
-    //   // Invalid!
-    //   return;
-    // }
-    //  _formKeys[_activeCurrentStep].currentState!.save();
     setState(() {
       _isLoading = true;
     });
-    // if (_authMode == AuthMode.Login) {
-    //   // Log user in
-    // } else {
-    // Sign user up
+
     print(_firstName.text);
     print(_lastName.text);
     print(_email.text);
@@ -113,66 +92,11 @@ class _StepperScreenState extends State<StepperScreen> {
         (_dialCodeDigits.substring(1) + _phoneNumber.text),
         _password.text,
         _password2.text);
-    //}
+
     setState(() {
       _isLoading = false;
     });
   }
-
-  // void _switchAuthMode() {
-  //   if (_authMode == AuthMode.Login) {
-  //     setState(() {
-  //       _authMode = AuthMode.Signup;
-  //     });
-  //   } else {
-  //     setState(() {
-  //       _authMode = AuthMode.Login;
-  //     });
-  //   }
-  // }
-
-  // void accountRegistration() async {
-  //   ApiConnection apiConnection = ApiConnection(
-  //       firstName: firstName.text,
-  //       lastName: lastName.text,
-  //       email: email.text,
-  //       phoneNumber: (_dialCodeDigits.substring(1) + phoneNumber.text),
-  //       password: password.text,
-  //       passwordConfirm: password2.text);
-  //   try {
-  //     http.Response response =
-  //         await http.post(apiConnection.registration(), body: {
-  //       "first_name": firstName.text,
-  //       "last_name": lastName.text,
-  //       "email": email.text,
-  //       "phone_number": (_dialCodeDigits.substring(1) + phoneNumber.text),
-  //       "password": password.text,
-  //       "password_confirm": password2.text
-  //     });
-
-  //     if (response.statusCode == 200 &&
-  //         (jsonDecode(response.body)['message'] != null)) {
-  //       print(response.statusCode);
-  //       String resBody = response.body;
-  //       var message = jsonDecode(resBody)['message'];
-  //       var message0 = jsonDecode(resBody)['message'][0];
-  //       ScaffoldMessenger.of(context)
-  //           .showSnackBar(SnackBar(content: Text(message)));
-  //       print(resBody);
-
-  //       //disable btn 'Register Account'
-  //       btnRegisterAccount = true;
-  //     } else {
-  //       print('Error');
-  //     }
-  //   } on SocketException {
-  //     throw Failure('No Internet connection 😑');
-  //   } on HttpException {
-  //     throw Failure("Couldn't find the post 😱");
-  //   } on FormatException {
-  //     throw Failure("Bad response format 👎");
-  //   }
-  // }
 
   List<StepPG> stepList() => [
         StepPG(
@@ -279,12 +203,8 @@ class _StepperScreenState extends State<StepperScreen> {
                     ),
                   ),
                   style: kInputTextStyle,
-                  //textInputAction: TextInputAction.none,
                   keyboardType: TextInputType.text,
                   focusNode: _lastNameFocusNode,
-                  // onFieldSubmitted: (_) {
-                  //   FocusScope.of(context).requestFocus(_lastNameFocusNode);
-                  // },
                 ),
                 const SizedBox(
                   height: 126,
@@ -415,7 +335,6 @@ class _StepperScreenState extends State<StepperScreen> {
                       print('${inputPhone}');
                     },
                     onFieldSubmitted: (_) {
-                      //_formKeys[_activeCurrentStep].currentState!.validate();
                       print('${_phoneNumber.text}');
                     },
                   ),
@@ -508,7 +427,6 @@ class _StepperScreenState extends State<StepperScreen> {
                 final isLastStep = _activeCurrentStep == stepList().length - 1;
 
                 if (isLastStep) {
-                  //alternatively we can set flag isCompleted to true
                   setState(() => isCompleted = true);
 
                   print('Competed');
@@ -570,10 +488,6 @@ class _StepperScreenState extends State<StepperScreen> {
                 return Row(
                   children: <Widget>[
                     Expanded(
-                      // child: ElevatedButton(
-                      //   onPressed: details.onStepContinue,
-                      //   child: Text(isLastStep ? 'CONFIRM' : 'NEXT'),
-                      // ),
                       child: Column(
                         children: [
                           Row(
@@ -608,14 +522,6 @@ class _StepperScreenState extends State<StepperScreen> {
                         ],
                       ),
                     ),
-                    // SizedBox(width: _activeCurrentStep != 0 ? 12 : 0),
-                    // if (_activeCurrentStep != 0)
-                    //   Expanded(
-                    //     child: ElevatedButton(
-                    //       onPressed: details.onStepCancel,
-                    //       child: const Text('BACK'),
-                    //     ),
-                    //   ),
                   ],
                 );
               },

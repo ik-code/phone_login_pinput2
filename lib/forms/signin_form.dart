@@ -103,13 +103,11 @@ class _SigninFormState extends State<SigninForm> {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(rb['message'])));
     }
-
   }
 
   @override
   Widget build(BuildContext context) {
- 
-     return Form(
+    return Form(
       key: _formKey,
       child: SingleChildScrollView(
         child: Column(
@@ -239,13 +237,7 @@ class _SigninFormState extends State<SigninForm> {
             ),
           ),
           suffixIcon: Image.asset('images/phone.png'),
-          // IconButton(
-          //   icon: const Icon(
-          //     Icons.phone,
-          //     color: Color(0xFFFB8D1C),
-          //   ),
-          //   onPressed: () {},
-          // ),
+
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8.0),
               borderSide: const BorderSide(
