@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
-import 'package:phone_login/providers/product.dart';
+import 'package:phone_login/providers/getaway.dart';
 
-class ProductsProvider with ChangeNotifier {
-  final List<Product> _items = [
-            // Product(
+class GetawaysProvider with ChangeNotifier {
+  final List<Getaway> _items = [
+            // Getaway(
             //     id: 1,
             //     title: "Yacht rent Azimut Flybridge in Paradise Harbour, Nassau (2010, refit 2020)",
             //     price: 1600.55,
@@ -14,7 +14,7 @@ class ProductsProvider with ChangeNotifier {
             //         "https://lav.playground.wdscode.guru/storage/getaways/1652774224yacht-rent.jpg",
             //         "https://lav.playground.wdscode.guru/storage/getaways/1652774224yacht-rent3.jpg"
             //     ],
-            //     description: "95' Azimut Flybridge yacht available for overnight trips to the Bahamas.Great condition, newly refit with incredible 5 star service.Water toys and snorkeling gear included!Explore the beautiful bay by boat! Book this 95' Azimut Flybridge Power Mega Yacht that can accommodate up to 9 people overnight...  Rates starting as low as \$6,000 per day.You can cruise to the Bahamas and many more destinations.*A minimum 10-15% tip is mandatory for crew members and is not included in the charter prices.Rates include: Captain and crew members Boat pick up and drop off at the Marina Fun water activities for adults and kids Dinghy Water googles Water tubes Snorkeling gear Paddle Boards Full tank of Gas We provide towels, drinks, sodas, water, ice, etc. A brand new blue-tooth speaker system installed Brand new amplifier systems What You Can Expect:Enjoy this 5-star rated yacht from Azimut boat yard while discovering the beautiful destinations all around the Bahamas, Bimini, and many more!Expect comfort, excellent service, and a great time!If you have any questions we can answer them in the messaging platform before you pay.",
+            //     description: "95' Azimut Flybridge yacht available for overnight trips to the Bahamas.Great condition, newly refit with incredible 5 star service.Water toys and snorkeling gear included!Explore the beautiful bay by boat! Book this 95' Azimut Flybridge Power Mega Yacht that can accommodate up to 9 people overnight... Rates starting as low as \$6,000 per day.You can cruise to the Bahamas and many more destinations.*A minimum 10-15% tip is mandatory for crew members and is not included in the charter prices.Rates include: Captain and crew members Boat pick up and drop off at the Marina Fun water activities for adults and kids Dinghy Water googles Water tubes Snorkeling gear Paddle Boards Full tank of Gas We provide towels, drinks, sodas, water, ice, etc. A brand new blue-tooth speaker system installed Brand new amplifier systems What You Can Expect:Enjoy this 5-star rated yacht from Azimut boat yard while discovering the beautiful destinations all around the Bahamas, Bimini, and many more!Expect comfort, excellent service, and a great time!If you have any questions we can answer them in the messaging platform before you pay.",
             //     date_time: "2022-04-25 04:12:11",
             //     duration_hours: 12,
             //     duration_minutes: 50,
@@ -25,38 +25,25 @@ class ProductsProvider with ChangeNotifier {
             //     created_at: "2022-04-25T16:12:11.000000Z",
             //     updated_at: "2022-05-17T07:57:04.000000Z"
             // ),
-    // Product(
-    //   id: 'p3',
-    //   title: 'Yellow Scarf',
-    //   description: 'Warm and cozy - exactly what you need for the winter.',
-    //   price: 19.99,
-    //   imageUrl:
-    //       'https://live.staticflickr.com/4043/4438260868_cc79b3369d_z.jpg',
-    // ),
-    // Product(
-    //   id: 'p4',
-    //   title: 'A Pan',
-    //   description: 'Prepare any meal you want.',
-    //   price: 49.99,
-    //   imageUrl:
-    //       'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Cast-Iron-Pan.jpg/1024px-Cast-Iron-Pan.jpg',
-    // ),
+
+// .....Oter Items
+
   ]; //pointer to the memory
 
   // var _showFavoritesOnly = false;
 
-  List<Product> get items {
+  List<Getaway> get items {
     // if (_showFavoritesOnly) {
     //   return _items.where((prodItem) => prodItem.isFavorite).toList();
     // }
     return [..._items];
   }
 
-  // List<Product> get favorieItems {
+  // List<Getaway> get favorieItems {
   //   return _items.where((prodItem) => prodItem.isFavorite).toList();
   // }
 
-  Product findById(String id) {
+  Getaway findById(String id) {
     return _items.firstWhere((prod) => prod.id == id);
   }
 
@@ -70,16 +57,16 @@ class ProductsProvider with ChangeNotifier {
   //   notifyListeners();
   // }
 
-  // Future<void> fetchAndSetProducts() async {
+  // Future<void> fetchAndSetGetaways() async {
   //   final url = Uri.parse(
-  //       'https://flutter-shop-db-realtime-default-rtdb.firebaseio.com/products.json');
+  //       'https://flutter-shop-db-realtime-default-rtdb.firebaseio.com/Getaways.json');
   //   try {
   //     final response = await http.get(url);
 
   //     final extractedData = json.decode(response.body) as Map<String, dynamic>;
-  //     final List<Product> loadedProducts = [];
+  //     final List<Getaway> loadedGetaways = [];
   //     extractedData.forEach((prodId, prodData) {
-  //       loadedProducts.add(Product(
+  //       loadedGetaways.add(Getaway(
   //           id: prodId,
   //           title: prodData['title'],
   //           description: prodData['description'],
@@ -87,7 +74,7 @@ class ProductsProvider with ChangeNotifier {
   //           imageUrl: prodData['imageUrl'],
   //           isFavorite: prodData['isFavorite']));
   //     });
-  //     _items = loadedProducts;
+  //     _items = loadedGetaways;
   //     notifyListeners();
   //   } catch (error) {
   //     rethrow;

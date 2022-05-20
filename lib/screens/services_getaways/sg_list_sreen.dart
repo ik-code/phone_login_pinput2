@@ -3,9 +3,8 @@ import 'dart:convert';
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:phone_login/screens/menu_screen.dart';
-import 'package:phone_login/screens/services_getaways/getaways/getaways_list_screen.dart';
+import 'package:phone_login/screens/services_getaways/getaways/getaway_list_screen.dart';
 import 'package:phone_login/screens/services_getaways/services/services_category_list_screen.dart';
-import 'package:phone_login/utilities/constans.dart';
 import 'package:phone_login/widgets/logo_pg.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
@@ -20,31 +19,75 @@ class SGListSreen extends StatefulWidget {
 }
 
 class _SGListSreenState extends State<SGListSreen> {
-  final Uri _url =
+  final Uri _urlGetways =
       Uri.parse('https://lav.playground.wdscode.guru/api/getaways-list');
+      final Uri _urlServicesCatList =
+      Uri.parse('https://lav.playground.wdscode.guru/api/service-categories-list');
 
   dynamic _responseDataGetways;
+  dynamic _responseDataServicesCatList;
 
-  Future<void> _getDataGetways(url) async {
-    final response = await http.get(url, headers: {
-      'Authorization':   'Uk_9YrTcBzNrE8e4riECrNRikqWOtI9iyoljQ1GnCMtSzaRjV1wHWBh8OvZa'
-      //Provider.of<Data>(context, listen: false).data['api_personal_access_token']
+  bool _isLoadingGetaways = false;
+  bool _isLoadingServices = false;
+
+  Future<void> _getDataGetways(urlGetways) async {
+    _isLoadingGetaways = true;
+    final response = await http.get(urlGetways, headers: {
+      'Authorization':
+          // 'Uk_9YrTcBzNrE8e4riECrNRikqWOtI9iyoljQ1GnCMtSzaRjV1wHWBh8OvZa'
+          Provider.of<Data>(context, listen: false)
+              .data['api_personal_access_token']
     });
 
-    //final res = json.decode(response.body)["data"]["getaways"];
-    final res = response.body;
-    print('           res: ${res}');
-    //print('           res: ${res[0]["title"]}');
-    setState(() {
-      _responseDataGetways = res;
-    });
+    final resBody = jsonDecode(response.body);
+
+    if (resBody['status'] == 0) {
+      _isLoadingGetaways = true;
+      print('           _isLoadingGetaways:$_isLoadingGetaways');
+      print('           res: ${resBody}');
+    } else {
+      _isLoadingGetaways = false;
+      setState(() {
+        _responseDataGetways = resBody;
+      });
+      print('           res: ${resBody}');
+    }
 
     print('          _responseDataGetways:         $_responseDataGetways');
   }
 
+  Future<void> _getDataServicesCatList(urlServicesCatList) async {
+    _isLoadingServices = true;
+    final response = await http.get(urlServicesCatList, headers: {
+      'Authorization':
+          // 'Uk_9YrTcBzNrE8e4riECrNRikqWOtI9iyoljQ1GnCMtSzaRjV1wHWBh8OvZa'
+          Provider.of<Data>(context, listen: false)
+              .data['api_personal_access_token']
+    });
+    
+
+
+    final resBody = jsonDecode(response.body);
+
+    if (resBody['status'] == 0) {
+      _isLoadingServices = true;
+      print('           _isLoadingServices:$_isLoadingServices');
+      print('           res: ${resBody}');
+    } else {
+      _isLoadingServices = false;
+      setState(() {
+        _responseDataServicesCatList = resBody;
+      });
+      print('           res: ${resBody}');
+    }
+
+    // print('          _responseDataGetways:         $_responseDataS');
+  }
+
   @override
   void initState() {
-    _getDataGetways(_url);
+    _getDataGetways(_urlGetways);
+    _getDataServicesCatList(_urlServicesCatList);
 
     super.initState();
   }
@@ -128,15 +171,31 @@ class _SGListSreenState extends State<SGListSreen> {
                 Expanded(
                     child: TabBarView(
                   children: [
-                    const Center(
-                      child: ServicesCategoryListScreen(),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          right: 24.0, left: 24.0, top: 24.0),
+                      child: (_isLoadingGetaways || _responseDataServicesCatList == null ) 
+                          ? Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                  Center(child: CircularProgressIndicator()),
+                                ])
+                          : ServicesCategoryListScreen(
+                              servicesCatList: _responseDataServicesCatList,
+                            ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(
                           right: 24.0, left: 24.0, top: 24.0),
-                      child: GetawaysListScreen(
-                        getawaysList: _responseDataGetways,
-                      ),
+                      child: _isLoadingGetaways
+                          ? Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                  Center(child: CircularProgressIndicator()),
+                                ])
+                          : GetawayListScreen(
+                              getawaysList: _responseDataGetways,
+                            ),
                     ),
                   ],
                 )),

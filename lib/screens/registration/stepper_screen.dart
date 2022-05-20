@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phone_login/config/api_connection.dart';
 import 'package:phone_login/screens/registration/otp_controller_registration_screen.dart';
 import 'package:phone_login/screens/auth_screen.dart';
 

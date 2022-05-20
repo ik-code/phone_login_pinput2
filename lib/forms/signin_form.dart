@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phone_login/config/api_connection.dart';
 import 'package:phone_login/screens/registration/stepper_screen.dart';
 import 'package:phone_login/screens/services_getaways/sg_list_sreen.dart';
 import 'package:phone_login/screens/sms_verification/login_screen.dart';
@@ -12,7 +11,6 @@ import 'package:phone_login/utilities/constans.dart';
 import 'package:phone_login/widgets/logo_pg.dart';
 import 'package:phone_login/widgets/raised_btn_pg.dart';
 
-import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 import '../main.dart';
@@ -49,13 +47,6 @@ class _SigninFormState extends State<SigninForm> {
   final RegExp phoneRegex = RegExp(r'^[0-9]{10}$');
   //RegExp(r'^[0-9]{3}-[0-9]{3}-[0-9]{4}$');
 
-  // final Map data = {
-  //   'phone_number': '',
-  //   'token': '',
-  //   'password': '',
-  //   'password_confirmation': '',
-  // };
-
   @override
   void initState() {
     super.initState();
@@ -90,91 +81,35 @@ class _SigninFormState extends State<SigninForm> {
     print('Phone: ${_phone}');
     print('Password: ${_password}');
 
-    String res  = await Provider.of<Auth>(context, listen: false)
+    String resbody = await Provider.of<Auth>(context, listen: false)
         .login((_dialCodeDigits.substring(1) + _phone), _password);
 
+    var rb = jsonDecode(resbody);
 
-              var apiToken = jsonDecode(res)['data']['api_personal_access_token'];
+    if (rb['status'] == 1) {
       ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('You are logged in')));
-      print('apiToken: $apiToken');
+          .showSnackBar(SnackBar(content: Text(rb['message'])));
 
-        _authData['api_personal_access_token'] = apiToken;
-    
+      _authData['api_personal_access_token'] =
+          rb['data']['api_personal_access_token'];
+
       Provider.of<Data>(context, listen: false).updateAccount(_authData);
 
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const SGListSreen()),
+      );
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(rb['message'])));
+    }
 
-Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const SGListSreen()),
-        );
-
-      // data['token'] = apiToken;
-      // _formKey.currentState?.save();
-      // Provider.of<Data>(context, listen: false).updateAccount(data);
-      // _formKey.currentState?.reset();
-
-      // print('Central State Sing Form: ${data}');
-
-      // Timer(
-      //     const Duration(seconds: 5),
-      //     () => Navigator.of(context)
-      //         .push(MaterialPageRoute(builder: (context) => SgListSreen())));
-
-       // _authData['token'] = apiToken;
-    
-   // Provider.of<Data>(context, listen: false).updateAccount(_authData);
-
-    //getData();
   }
-
-  // void getData() async {
-  //   ApiConnection apiConnection = ApiConnection(
-  //       phoneNumber: (_dialCodeDigits + _phone), password: _password);
-
-  //   http.Response response =
-  //       await http.post(apiConnection.logInPostEndPoint(), body: {
-  //     "phone_number": _authData['phone_number'],
-  //     "password": _authData['password'],
-  //   });
-
-  //   if (response.statusCode == 200 &&
-  //       jsonDecode(response.body)['data'] != null) {
-  //     String res = response.body;
-  //     print(res);
-  //     var apiToken = jsonDecode(res)['data']['api_personal_access_token'];
-  //     ScaffoldMessenger.of(context)
-  //         .showSnackBar(const SnackBar(content: Text('You are logged in')));
-  //     print(apiToken);
-
-  //     _authData['token'] = apiToken;
-  //     _formKey.currentState?.save();
-  //     Provider.of<Data>(context, listen: false).updateAccount(_authData);
-  //     _formKey.currentState?.reset();
-
-  //     print('Central State Sing Form: ${_authData}');
-
-  //     Timer(
-  //         const Duration(seconds: 5),
-  //         () => Navigator.of(context)
-  //             .push(MaterialPageRoute(builder: (context) => SgListSreen())));
-  //   }
-
-  //   if (response.statusCode == 200 &&
-  //       (jsonDecode(response.body)['message'] != null)) {
-  //     print(response.statusCode);
-  //     String msg = response.body;
-  //     var err = jsonDecode(msg)['message'];
-  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(err)));
-  //     print(msg);
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
-    print('build called');
-
-    return Form(
+ 
+     return Form(
       key: _formKey,
       child: SingleChildScrollView(
         child: Column(

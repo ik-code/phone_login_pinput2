@@ -1,13 +1,74 @@
 import 'package:flutter/material.dart';
-
+import 'package:phone_login/widgets/service_cat_item.dart';
+import '../../../utilities/constans.dart';
 
 class ServicesCategoryListScreen extends StatelessWidget {
-const ServicesCategoryListScreen({ Key? key }) : super(key: key);
+  final servicesCatList;
+  const ServicesCategoryListScreen({Key? key, required this.servicesCatList})
+      : super(key: key);
 
   @override
-  Widget build(BuildContext context){
-    return const Text(
-      'Services Category List',
+  Widget build(BuildContext context) {
+    
+    final dataItem = servicesCatList["data"]["services_categories"];
+
+    print('           dataItem: $dataItem');
+
+    return SingleChildScrollView(
+      physics: const ScrollPhysics(),
+      child: Column(
+        children: [
+          const Text(
+              'Welcome to Playground. Adults have more fun here! Book your ideal play date by choosing who will watch your children, getting your makeup done on demand, hiring a driver so you don’t need to worry about anything, book an experience or a yacht rental.',
+              style: kGetawaysTextBlackStyle),
+          const SizedBox(
+            height: 24,
+          ),
+          //   Text(dataItem[0]["title"],)
+          GridView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: dataItem.length,
+            itemBuilder: (ctx, i) => ServiceCatItem(
+              dataItem[i]['id'],
+              dataItem[i]['title'],
+              dataItem[i]['image'],
+              dataItem[i]['terms_and_conditions'],
+              dataItem[i]['created_at'],
+              dataItem[i]['updated_at'],
+            ),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 1 / 1,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+            ),
+          ),
+          const SizedBox(
+            height: 24,
+          ),
+        ],
+      ),
     );
   }
 }
+
+    // GridView.builder(
+    //   padding: const EdgeInsets.all(10.0),
+    //   itemCount: products.length,
+    //   itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
+    //     // create: (BuildContext context) => products[i],
+    //     value: products[i],
+    //     child: ProductItem(
+    //         // products[i].id,
+    //         // products[i].title,
+    //         // products[i].imageUrl,
+    //         ),
+    //   ),
+    //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+    //     crossAxisCount: 2,
+    //     childAspectRatio: 3 / 2,
+    //     crossAxisSpacing: 10,
+    //     mainAxisSpacing: 10,
+    //   ),
+    // );

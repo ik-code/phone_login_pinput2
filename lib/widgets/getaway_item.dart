@@ -4,7 +4,7 @@ import 'package:phone_login/widgets/raised_btn_pg.dart';
 
 import '../utilities/constans.dart';
 
-class ProductItem extends StatelessWidget {
+class GetawayItem extends StatelessWidget {
   final int id;
   final String title;
   final double price;
@@ -24,7 +24,7 @@ class ProductItem extends StatelessWidget {
   final String updatedAt;
   final String excerpt;
 
-  const ProductItem(
+  const GetawayItem(
       this.id,
       this.title,
       this.price,

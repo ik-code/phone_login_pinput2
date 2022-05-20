@@ -1,11 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:phone_login/config/api_connection.dart';
 import 'package:phone_login/screens/sms_verification/congrats_screen.dart';
 import 'package:phone_login/utilities/constans.dart';
 import 'package:phone_login/widgets/raised_btn_pg.dart';
-import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 import '../main.dart';
@@ -37,18 +33,6 @@ class _ConfirmPastFormState extends State<ConfirmPastForm> {
   };
 
   @override
-  void initState() {
-    super.initState();
-    print('initState called');
-  }
-
-  @override
-  void deactivate() {
-    super.deactivate();
-    print('deactivate called');
-  }
-
-  @override
   void dispose() {
     _passwordFocusNode.dispose();
     _passwordFocusNode2.dispose();
@@ -68,7 +52,6 @@ class _ConfirmPastFormState extends State<ConfirmPastForm> {
     print('Password: ${_password2}');
 
     
-
     await Provider.of<Auth>(context, listen: false)
         .resetPassword( 
           Provider.of<Data>(context, listen: false).data['phone_number'],
@@ -89,43 +72,7 @@ class _ConfirmPastFormState extends State<ConfirmPastForm> {
           context,
           MaterialPageRoute(builder: (context) => const CongratsScreen()));
 
-        
-    //getData();
   }
-
-  // void getData() async {
-  //   ApiConnection apiConnection = ApiConnection();
-  //   var data = {};
-  //   data = Provider.of<Data>(context, listen: false).data;
-  //   http.Response response =
-  //       await http.post(apiConnection.forgotPasswordSetPassword(),
-  //           headers: {
-  //             "Authorization": Provider.of<Data>(context, listen: false)
-  //                 .data['token']
-  //                 .toString()
-  //           },
-  //           body: data);
-
-  //   if (response.statusCode == 200 &&
-  //       jsonDecode(response.body)['message'] != null) {
-  //     String data = response.body;
-  //     print(data);
-  //     String msg = response.body;
-  //     var str = jsonDecode(msg)['message'];
-  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(str)));
-  //     print(str);
-  //     if (str == 'Password was updated' && (jsonDecode(msg)['status'] == 1)) {
-  //       Navigator.push(
-  //         context,
-  //         MaterialPageRoute(builder: (context) => const CongratsScreen()),
-  //       );
-  //     }
-  //   }
-  //   if (response.statusCode >= 400) {
-  //     print('Error!');
-  //     print(response.body);
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {

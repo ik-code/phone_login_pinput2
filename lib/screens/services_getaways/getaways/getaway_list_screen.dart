@@ -1,22 +1,17 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../../../providers/products.dart';
 import '../../../utilities/constans.dart';
-import '../../../widgets/product_item.dart';
+import '../../../widgets/getaway_item.dart';
 
-class GetawaysListScreen extends StatelessWidget {
+class GetawayListScreen extends StatelessWidget {
   final  getawaysList;
   
-   const GetawaysListScreen({Key? key, required this.getawaysList})
+   const GetawayListScreen({Key? key, required this.getawaysList})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     //final res = json.decode(response.body)["data"]["getaways"];
-    final  dataItem = json.decode(getawaysList)["data"]["getaways"];
+    final  dataItem = getawaysList["data"]["getaways"];
 
     print('           dataItem: $dataItem');
 
@@ -36,7 +31,7 @@ class GetawaysListScreen extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
             itemCount: dataItem.length,
-            itemBuilder: (ctx, i) => ProductItem(
+            itemBuilder: (ctx, i) => GetawayItem(
               dataItem[i]['id'],
               dataItem[i]['title'],
               dataItem[i]['price'].toDouble(),

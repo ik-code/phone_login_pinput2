@@ -9,7 +9,7 @@ import '../main.dart';
 class Auth with ChangeNotifier {
   final String serverUrl = 'https://lav.playground.wdscode.guru';
 
-  Future<void> signup(
+  Future<dynamic> signup(
     String firstName,
     String lastName,
     String email,
@@ -34,10 +34,13 @@ class Auth with ChangeNotifier {
       ),
     );
 
-    print(json.decode(response.body));
+    var statusCodeServer = response.statusCode;
+    var resBody = jsonDecode(response.body);
+    var message = resBody['message'];
 
     if (response.statusCode == 200 &&
-        (jsonDecode(response.body)['message'] != null)) {
+        (jsonDecode(response.body)['message'] != null) &&
+        resBody['status'] == 1) {
       print(response.statusCode);
       String resBody = response.body;
       var message = jsonDecode(resBody)['message'];
@@ -50,9 +53,15 @@ class Auth with ChangeNotifier {
 
       //disable btn 'Register Account'
       //btnRegisterAccount = true;
-    } else {
-      print('Error');
+    } else if (statusCodeServer >= 400) {
+      print('Error!');
+      print('statusCodeServer: $statusCodeServer');
+    } else if (resBody['status'] == 0) {
+      print('Warning ApiLara!');
+      print('MessageApiLara: $message');
     }
+
+    return resBody;
   }
 
   Future<String> login(
@@ -125,7 +134,6 @@ class Auth with ChangeNotifier {
       print('Server status: 200 :${response.body}');
     }
     if (response.statusCode >= 400) {
-    
       print('Server status Error!!! :${response.body}');
     }
   }
