@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:phone_login/widgets/raised_btn_pg.dart';
 
+import '../screens/services_getaways/services/category_service_single_post_screen.dart';
 import '../utilities/constans.dart';
 
 class ServiceCategoryPostListItem extends StatelessWidget {
@@ -21,23 +22,22 @@ class ServiceCategoryPostListItem extends StatelessWidget {
   final String excerpt;
   final Map pivot;
 
-
   const ServiceCategoryPostListItem(
-  this.id,
-  this.title,
-  this.price,
-  this.fee,
-  this.photos,
-  this.description,
-  this.dateTime,
-  this.durationHours,
-  this.durationMinutes,
-  this.paymentType,
-  this.createdById,
-  this.createdAt,
-  this.updatedAt,
-  this.excerpt,
-  this.pivot,
+      this.id,
+      this.title,
+      this.price,
+      this.fee,
+      this.photos,
+      this.description,
+      this.dateTime,
+      this.durationHours,
+      this.durationMinutes,
+      this.paymentType,
+      this.createdById,
+      this.createdAt,
+      this.updatedAt,
+      this.excerpt,
+      this.pivot,
       {Key? key})
       : super(key: key);
 
@@ -63,12 +63,14 @@ class ServiceCategoryPostListItem extends StatelessWidget {
             //         "qlVuKcnbSINtcp2iqXSPb8fWR32QPb5cOcQoIlJgArQZtMERXzaE02IvOR5H"
             //   }),
             // ),
-             ClipRRect(
-              borderRadius: const BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),
-              child:Image.network(
+            ClipRRect(
+              borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(16), topRight: Radius.circular(16)),
+              child: Image.network(
                 photos[0].toString(),
                 fit: BoxFit.cover,
-                width: double.infinity,),
+                width: double.infinity,
+              ),
             ),
 
             Padding(
@@ -131,7 +133,14 @@ class ServiceCategoryPostListItem extends StatelessWidget {
                   const SizedBox(
                     height: 32,
                   ),
-                  RaisedButtonPG(text: 'View', onPressedHandler: () {})
+                  RaisedButtonPG(
+                      text: 'View',
+                      onPressedHandler: () {
+                        print('category-service-single-post');
+       Navigator.pushNamed(context, CategoryServiceSinglePostScreen.routeName,
+            arguments: { });
+
+                      })
                 ],
               ),
             )
