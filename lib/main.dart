@@ -12,6 +12,7 @@ import 'package:phone_login/utilities/constans.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/auth.dart';
+import 'screens/services_getaways/services/service_category_post_list_screen.dart';
 
 Future<void> main() async {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -53,7 +54,9 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.grey,
               unselectedWidgetColor: kGreyPg,
             ),
-            home: const SingInSingUpScreen(),
+            home:  const SingInSingUpScreen(),
+              //const ServiceCategoryPostListScreen(serviceCatPostList: null,),
+
              // const SGListSreen(),
             //---SMS Verification---
             //const LoginScreen(),
@@ -62,10 +65,10 @@ class MyApp extends StatelessWidget {
             routes: {
               AuthScreen.routeName: (ctx) => const AuthScreen(),
               StepperScreen.routeName: (ctx) => const StepperScreen(),
-              // 'singin_to_account_screen': (context) =>
-              //     const AuthScreen(),
               ResetPasswordScreen.routeName: (ctx) =>
                   const ResetPasswordScreen(),
+              ServiceCategoryPostListScreen.routeName: (ctx) =>
+                  const ServiceCategoryPostListScreen(), 
             }),
       ),
     );

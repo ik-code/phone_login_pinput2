@@ -11,7 +11,6 @@ class ServicesCategoryListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final dataItem = servicesCatList["data"]["services_categories"];
 
-    print('           dataItem: $dataItem');
 
     return SingleChildScrollView(
       physics: const ScrollPhysics(),
@@ -23,7 +22,6 @@ class ServicesCategoryListScreen extends StatelessWidget {
           const SizedBox(
             height: 24,
           ),
-          //   Text(dataItem[0]["title"],)
           GridView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,

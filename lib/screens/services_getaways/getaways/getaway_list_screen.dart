@@ -12,8 +12,6 @@ class GetawayListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final dataItem = getawaysList["data"]["getaways"];
 
-    print('           dataItem: $dataItem');
-
     return SingleChildScrollView(
       physics: const ScrollPhysics(),
       child: Column(

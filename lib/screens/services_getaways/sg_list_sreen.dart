@@ -43,17 +43,12 @@ class _SGListSreenState extends State<SGListSreen> {
 
     if (resBody['status'] == 0) {
       _isLoadingGetaways = true;
-      print('           _isLoadingGetaways:$_isLoadingGetaways');
-      print('           res: ${resBody}');
     } else {
       _isLoadingGetaways = false;
       setState(() {
         _responseDataGetways = resBody;
       });
-      print('           res: ${resBody}');
     }
-
-    print('          _responseDataGetways:         $_responseDataGetways');
   }
 
   Future<void> _getDataServicesCatList(urlServicesCatList) async {
@@ -69,14 +64,11 @@ class _SGListSreenState extends State<SGListSreen> {
 
     if (resBody['status'] == 0) {
       _isLoadingServices = true;
-      print('           _isLoadingServices:$_isLoadingServices');
-      print('           res: ${resBody}');
     } else {
       _isLoadingServices = false;
       setState(() {
         _responseDataServicesCatList = resBody;
       });
-      print('           res: ${resBody}');
     }
   }
 

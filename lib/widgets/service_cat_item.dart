@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:phone_login/screens/services_getaways/services/service_category_post_list_screen.dart';
 import 'package:provider/provider.dart';
 import '../main.dart';
 import '../utilities/constans.dart';
 import 'package:http/http.dart' as http;
 
-class ServiceCatItem extends StatelessWidget {
+class ServiceCatItem extends StatefulWidget {
   final int id;
   final String title;
   final String image;
@@ -19,42 +20,63 @@ class ServiceCatItem extends StatelessWidget {
       : super(key: key);
 
   @override
+  State<ServiceCatItem> createState() => _ServiceCatItemState();
+}
+
+class _ServiceCatItemState extends State<ServiceCatItem> {
+
+    bool singleTap = true;
+
+  @override
   Widget build(BuildContext context) {
-    // final Uri _urlServicesCaPosttList = Uri.parse(
-    //     'https://lav.playground.wdscode.guru/api/service-category-post-list?id=$id');
 
-    // Future<void> _getDataServicesCatList(urlServicesCaPosttList) async {
-    //   //_isLoadingServices = true;
-    //   final response = await http.get(
-    //     urlServicesCaPosttList, 
-    //   headers: {
-    //     'Authorization':
-    //         // 'Uk_9YrTcBzNrE8e4riECrNRikqWOtI9iyoljQ1GnCMtSzaRjV1wHWBh8OvZa'
-    //         Provider.of<Data>(context, listen: false)
-    //             .data['api_personal_access_token']
-    //   });
 
-    //   final resBody = jsonDecode(response.body);
+    final Uri _urlServiceCatPostList = Uri.parse(
+        'https://lav.playground.wdscode.guru/api/service-category-post-list');
 
-    //   if (resBody['status'] == 0) {
-    //     //  _isLoadingServices = true;
-    //     //  print('           _isLoadingServices:$_isLoadingServices');
-    //     print(' Status 0          resServicesCatPostList: ${resBody}');
-    //   } else {
-    //     //    _isLoadingServices = false;
-    //     // setState(() {
-    //     //   _responseDataServicesCatList = resBody;
-    //     // });
-    //     print(' Status 1          resServicesCatPostList: ${resBody}');
-    //   }
+    Future<void> _getDataUrlServiceCatPosttListById(catId) async {
+     
+      final response = await http.post(_urlServiceCatPostList,
+          body: json.encode({
+            "category_id": catId,
+          }),
+          headers: {
+            'Authorization':
+                // 'ML-4hgqBQ5vOwbpM2m39sRZbfQLtMVW-ZWwbj7AYMrxq1cPfejxc70-Dw_NM'
+                Provider.of<Data>(context, listen: false)
+                    .data['api_personal_access_token']
+          });
 
-    //   // print('          _responseDataGetways:         $_responseDataS');
-    // }
+      final resBody = jsonDecode(response.body);
+
+      if (resBody['status'] == 0) {
+        print(
+            ' Status 0          resServiceCatPostList: ${resBody['data']['services']}');
+      } else {
+        print(
+            ' Status 1          resServiceCatPostList: ${resBody['data']['services']}');
+          setState(() {
+             singleTap = true;
+          });
+        Navigator.pushNamed(context, ServiceCategoryPostListScreen.routeName,
+            arguments: {
+              "dataItem": resBody['data']['services'],
+              "category": widget.title
+            });
+      }
+    }
 
     return GestureDetector(
       onTap: (() {
-        print('Services id: $id');
-        //_getDataServicesCatList(_urlServicesCaPosttList);
+        print('Services id: ${widget.id}');
+        if (singleTap) {
+          _getDataUrlServiceCatPosttListById(widget.id);
+
+          setState(() {
+             singleTap = false;
+          });
+         
+        } // update bool
       }),
       child: Card(
         shadowColor: const Color.fromRGBO(0, 0, 0, 0.3),
@@ -63,7 +85,7 @@ class ServiceCatItem extends StatelessWidget {
         child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
           ClipRRect(
             child: Image.network(
-              image.toString(),
+              widget.image.toString(),
               fit: BoxFit.cover,
               width: double.infinity,
             ),
@@ -71,7 +93,7 @@ class ServiceCatItem extends StatelessWidget {
           const SizedBox(
             height: 14,
           ),
-          Text(title, style: kServicesCatListTitleBlackStyle)
+          Text(widget.title, style: kServicesCatListTitleBlackStyle)
         ]),
       ),
     );
