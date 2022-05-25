@@ -127,11 +127,71 @@ const kServicesCatListTitleBlackStyle = TextStyle(
     fontSize: 17,
     fontWeight: FontWeight.w600,
     color: Color(0xFF212121));
+const kCatServiceSinglePostAuthorGreyStyle = TextStyle(
+    fontFamily: 'Manrope',
+    height: 1.68,
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: Color(0xFF898A8D));
+const kCatServiceSinglePostAuthorOrangeStyle = TextStyle(
+    fontFamily: 'Manrope',
+    height: 1.68,
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: Color(0xFFFB8D1C));
+const kCatServiceSinglePostTitleBlackStyle = TextStyle(
+    fontFamily: 'Manrope',
+    height: 1.3,
+    fontSize: 24,
+    fontWeight: FontWeight.w700,
+    color: Color(0xFF212121));
+const kCatServiceSinglePostTimeGreyStyle = TextStyle(
+    fontFamily: 'Manrope',
+    height: 1.68,
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: Color(0xFF898A8D));
+const kCatServiceSinglePostTextBlackStyle = TextStyle(
+    fontFamily: 'Manrope',
+    height: 1.68,
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: Color(0xFF404040));
+const kCatServiceSinglePostSubTitleOrangeStyle = TextStyle(
+    fontFamily: 'Manrope',
+    height: 1,
+    fontSize: 14,
+    fontWeight: FontWeight.w800,
+    color: Color(0xFFFB8D1C));
+const kCatServiceSinglePostReviewsTitleBlackStyle = TextStyle(
+    fontFamily: 'Manrope',
+    height: 1.3,
+    fontSize: 20,
+    fontWeight: FontWeight.w700,
+    color: Color(0xFF212121));
+const kCatServiceSinglePostReviewsTitleGreyStyle = TextStyle(
+    fontFamily: 'Manrope',
+    height: 1.3,
+    fontSize: 20,
+    fontWeight: FontWeight.w700,
+    color: Color(0xFF898A8D));
+    const kCatServiceSinglePostReviewsRaitingNumberStyle = TextStyle(
+    fontFamily: 'Manrope',
+    height: 1.3,
+    fontSize: 14,
+    fontWeight: FontWeight.w800,
+    color: Color(0xFF404040));
+        const kCatServiceSinglePostReviewsAuthorNumberStyle = TextStyle(
+    fontFamily: 'Manrope',
+    height: 1.3,
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    color: Color(0xFF212121));
 ////////////////////////////////////////////////////////////////////////////////
 ///StepperPG////////////////////////////////////////////////////////////////////
 
 const kOrangePG = Color(0xFFFB8D1C);
-const kWhitePG = Color(0xFFFFFFFFF);
+const kWhitePG = Color(0xFFFFFFFF);
 const kGreyPg = Color.fromRGBO(169, 169, 169, 1);
 
 

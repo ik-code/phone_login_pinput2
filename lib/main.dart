@@ -56,6 +56,7 @@ class MyApp extends StatelessWidget {
               unselectedWidgetColor: kGreyPg,
             ),
             home: const SingInSingUpScreen(),
+             // const CategoryServiceSinglePostScreen(),
             //const ServiceCategoryPostListScreen(serviceCatPostList: null,),
 
             // const SGListSreen(),
