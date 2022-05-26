@@ -151,7 +151,7 @@ class _SGListSreenState extends State<SGListSreen> {
                       padding: const EdgeInsets.only(
                           right: 24.0, left: 24.0, top: 24.0),
                       child: (_isLoadingGetaways ||
-                              _responseDataServicesCatList == null)
+                              _responseDataServicesCatList == null )
                           ? Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: const [

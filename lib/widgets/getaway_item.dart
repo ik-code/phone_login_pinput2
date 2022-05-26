@@ -70,11 +70,14 @@ class GetawayItem extends StatelessWidget {
             // ),
             ClipRRect(
               borderRadius: const BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),
-              
-              child:Image.network(
-                images[0].toString(),
-                fit: BoxFit.cover,
-                width: double.infinity,),
+              child:Container(
+                height: 190,
+                width: double.infinity,
+                child: Image.network(
+                  images[0].toString(),
+                  fit: BoxFit.cover,
+                  width: double.infinity,),
+              ),
             ),
 
             Padding(

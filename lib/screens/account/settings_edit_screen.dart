@@ -194,9 +194,10 @@ class _SettingsEditScreenState extends State<SettingsEditScreen> {
                             color: Colors.grey,
                           )),
                       child: FittedBox(
-                          child: Image.network(
+                          child: Image.network(                  
                         //_imageUrlController.text,
                         'https://www.shareicon.net/data/128x128/2017/06/21/887379_face_512x512.png',
+                        
                         fit: BoxFit.cover,
                       )),
                     ),

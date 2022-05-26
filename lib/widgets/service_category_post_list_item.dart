@@ -64,12 +64,18 @@ class ServiceCategoryPostListItem extends StatelessWidget {
             //   }),
             // ),
             ClipRRect(
+              
               borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(16), topRight: Radius.circular(16)),
-              child: Image.network(
-                photos[0].toString(),
-                fit: BoxFit.cover,
+              child: Container(
+                height: 190,
                 width: double.infinity,
+                child: Image.network(
+                  photos[0].toString(),
+                  fit: BoxFit.cover,
+
+                  width: double.infinity,
+                ),
               ),
             ),
 
@@ -136,9 +142,9 @@ class ServiceCategoryPostListItem extends StatelessWidget {
                   RaisedButtonPG(
                       text: 'View',
                       onPressedHandler: () {
-                        print('category-service-single-post');
+                        print('category-service-single-post id: $id');
        Navigator.pushNamed(context, CategoryServiceSinglePostScreen.routeName,
-            arguments: { });
+            arguments: {'categoryServiceSinglePostId' : id });
 
                       })
                 ],

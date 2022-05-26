@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phone_login/screens/registration/stepper_screen.dart';
+import 'package:phone_login/screens/services_getaways/add_review/add_review_screen.dart';
 import 'package:phone_login/screens/services_getaways/services/category_service_single_post_screen.dart';
 import 'package:phone_login/screens/services_getaways/sg_list_sreen.dart';
 import 'package:phone_login/screens/singin_singup_screen.dart';
@@ -73,6 +74,8 @@ class MyApp extends StatelessWidget {
                   const ServiceCategoryPostListScreen(),
               CategoryServiceSinglePostScreen.routeName: (ctx) =>
                   const CategoryServiceSinglePostScreen(),
+
+                  AddReviewScreen.routeName: (ctx) => const AddReviewScreen(),
             }),
       ),
     );

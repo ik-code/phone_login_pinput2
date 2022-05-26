@@ -10,7 +10,7 @@ class ServiceCatItem extends StatefulWidget {
   final int id;
   final String title;
   final String image;
-  final String termsAndConditions;
+  final String? termsAndConditions;
   final String createdAt;
   final String updatedAt;
 
@@ -84,10 +84,14 @@ class _ServiceCatItemState extends State<ServiceCatItem> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
           ClipRRect(
-            child: Image.network(
-              widget.image.toString(),
-              fit: BoxFit.cover,
-              width: double.infinity,
+            child: Container(
+                height: 119,
+                width: double.infinity,
+              child: Image.network(
+                widget.image.toString(),
+                fit: BoxFit.cover,
+                width: double.infinity,
+              ),
             ),
           ),
           const SizedBox(

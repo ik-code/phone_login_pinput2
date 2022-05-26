@@ -91,7 +91,7 @@ const kGetawaysTextBlackStyle = TextStyle(
 
 const kGetawaysTitleBlackStyle = TextStyle(
     fontFamily: 'Manrope',
-    height: 1,
+    height: 1.3,
     fontSize: 18,
     fontWeight: FontWeight.w700,
     color: Color(0xFF212121));
