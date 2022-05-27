@@ -407,7 +407,7 @@ class _CategoryServiceSinglePostScreenState
                                     Text(
                                       (_responseCategoryServiceSinglePost[
                                               'rate_of_service'])
-                                          .toString(),
+                                          .toStringAsFixed(2),
                                       style:
                                           kCatServiceSinglePostReviewsRaitingNumberStyle,
                                     ),
