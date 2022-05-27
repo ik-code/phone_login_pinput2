@@ -57,8 +57,8 @@ class _CategoryServiceSinglePostScreenState
       setState(() {
         _dataIsLoaded = true;
       });
-    }else{
-            setState(() {
+    } else {
+      setState(() {
         _dataIsLoaded = false;
       });
     }
@@ -199,17 +199,16 @@ class _CategoryServiceSinglePostScreenState
                                               MediaQuery.of(context).size.width,
                                           height: 190,
                                           margin: const EdgeInsets.symmetric(
-                                              horizontal: 5.0),
-                                          decoration: const BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(18)),
-                                          ),
-                                          child: Image.network(
-                                            i,
-                                            fit: BoxFit.cover,
-                                            height: 190,
-                                            width: double.infinity,
+                                              horizontal: 5.0),                                     
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            child: Image.network(
+                                              i,
+                                              fit: BoxFit.cover,
+                                              height: 190,
+                                              width: double.infinity,
+                                            ),
                                           ),
                                         );
                                       },
@@ -421,11 +420,13 @@ class _CategoryServiceSinglePostScreenState
                                     child: OutlineButtonPG(
                                         text: 'Leave feedback',
                                         onPressedHandler: () {
-                                          Navigator.pushNamed(
-        context,AddReviewScreen.routeName,
-        arguments: {
-          "service_id": _responseCategoryServiceSinglePost['id'],
-        });
+                                          Navigator.pushNamed(context,
+                                              AddReviewScreen.routeName,
+                                              arguments: {
+                                                "service_id":
+                                                    _responseCategoryServiceSinglePost[
+                                                        'id'],
+                                              });
                                         })),
                                 const SizedBox(
                                   height: 40,
