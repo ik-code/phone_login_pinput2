@@ -175,18 +175,32 @@ const kCatServiceSinglePostReviewsTitleGreyStyle = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.w700,
     color: Color(0xFF898A8D));
-    const kCatServiceSinglePostReviewsRaitingNumberStyle = TextStyle(
+const kCatServiceSinglePostReviewsRaitingNumberStyle = TextStyle(
     fontFamily: 'Manrope',
     height: 1.3,
     fontSize: 14,
     fontWeight: FontWeight.w800,
     color: Color(0xFF404040));
-        const kCatServiceSinglePostReviewsAuthorNumberStyle = TextStyle(
+const kCatServiceSinglePostReviewsAuthorNumberStyle = TextStyle(
     fontFamily: 'Manrope',
     height: 1.3,
     fontSize: 18,
     fontWeight: FontWeight.w700,
     color: Color(0xFF212121));
+
+const kAddReviewsHintStyle = TextStyle(
+    fontFamily: 'Manrope',
+    height: 1.4,
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: Color.fromRGBO(123, 123, 123, 0.5));
+
+    const kAddReviewsInputTextStyle = TextStyle(
+    fontFamily: 'Manrope',
+    height: 1.4,
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: Color(0xFF404040));
 ////////////////////////////////////////////////////////////////////////////////
 ///StepperPG////////////////////////////////////////////////////////////////////
 

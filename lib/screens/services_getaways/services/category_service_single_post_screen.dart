@@ -162,7 +162,7 @@ class _CategoryServiceSinglePostScreenState
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           const SizedBox(
-                            height: 12,
+                            height: 0,
                           ),
                           Row(
                             children: [
@@ -179,7 +179,7 @@ class _CategoryServiceSinglePostScreenState
                             ],
                           ),
                           const SizedBox(
-                            height: 33,
+                            height: 24,
                           ),
                           imgList == []
                               ? Container(
@@ -374,7 +374,7 @@ class _CategoryServiceSinglePostScreenState
                                                   'rate_of_service'])
                                               .toDouble(),
                                       direction: Axis.horizontal,
-                                      allowHalfRating: true,
+                                      allowHalfRating: false,
                                       itemCount: 5,
                                       itemSize: 28.0,
                                       ratingWidget: RatingWidget(
@@ -421,8 +421,11 @@ class _CategoryServiceSinglePostScreenState
                                     child: OutlineButtonPG(
                                         text: 'Leave feedback',
                                         onPressedHandler: () {
-                                          Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => const AddReviewScreen()));
+                                          Navigator.pushNamed(
+        context,AddReviewScreen.routeName,
+        arguments: {
+          "service_id": _responseCategoryServiceSinglePost['id'],
+        });
                                         })),
                                 const SizedBox(
                                   height: 40,
@@ -475,7 +478,7 @@ class _CategoryServiceSinglePostScreenState
                                                               ['rate'])
                                                           .toDouble(),
                                                   direction: Axis.horizontal,
-                                                  allowHalfRating: true,
+                                                  allowHalfRating: false,
                                                   itemCount: 5,
                                                   itemSize: 28.0,
                                                   ratingWidget: RatingWidget(
